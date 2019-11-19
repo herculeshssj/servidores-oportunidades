@@ -1,7 +1,11 @@
 import Oportunidades
+import Oportunidade
 
 static void main(String... args) {
     
-    new Oportunidades().buscarOportunidades()
+    Oportunidades oportunidades = new Oportunidades().buscarOportunidades()
 
+    for (Oportunidade op : oportunidades.listaOportunidade) {
+        println op.toString()
+    }
 }

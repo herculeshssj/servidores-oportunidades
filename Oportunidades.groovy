@@ -1,6 +1,10 @@
 import groovy.util.XmlSlurper
+import Oportunidade
+import java.util.ArrayList
 
 class Oportunidades {
+
+    def listaOportunidade = new ArrayList<Oportunidade>()
 
     /*
         Acessa o endereço https://www.servidor.gov.br/assuntos/oportunidades/abertas
@@ -15,12 +19,16 @@ class Oportunidades {
 
         def html = parser.parse("https://www.servidor.gov.br/assuntos/oportunidades/abertas")
 
+        Oportunidade op = null
+
         html.'**'.findAll { it.@class == 'tileContent' }.each {
-            //println it
-            println it.h2.a.text()
-            println it.p.span.text()
-            println it.h2.a.@href.text()
-            println ""
+            
+            op = new Oportunidade()
+            op.titulo = it.h2.a.text()
+            op.descricao = it.p.span.text()
+            op.link = it.h2.a.@href.text()
+            listaOportunidade.add(op)
+
         }
 
         println "Oportunidades carregadas!"
