@@ -25,3 +25,9 @@ Configuring database
 ====================
 
 Enter in http://localhost:8081 and create a new database called 'oportunidade'.
+
+
+Running application
+===================
+
+docker run --rm --link mongodb-container -v "$PWD":/home/groovy/scripts -w /home/groovy/scripts groovy groovy Main.groovy
