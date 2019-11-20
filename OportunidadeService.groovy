@@ -8,50 +8,8 @@ class OportunidadeService {
         e traz as oportunidades disponíveis. 
     */
     void buscarOportunidades() {
-        this.salvarOportunidades()
-    }
 
-    /*
-        Cadastra as oportunidades encontradas na base
-    */
-    private void salvarOportunidades() {
-
-        OportunidadeRepository repository = new OportunidadeRepository()
-
-        Oportunidade oportunidade = new Oportunidade(
-            titulo: 'Teste',
-            descricao: 'Descricao de teste',
-            link: 'https://teste.com',
-            uf: 'RJ',
-            periodoInscricao: 'até 31/12/2019'
-        )
-
-        repository.salvarOportunidade(oportunidade)
-
-    }
-
-    /*
-        Notifica aos usuários das novas oportunidades disponíveis no site
-    */
-    void notificarOportunidades() {
-
-    }
-
-    /*
-        Recupera da base as oportunidades cadastradas e que ainda não foram enviadas para os
-        usuários.
-    */
-    private void recuperarNovasOportunidades() {
-
-    }
-/*
-    def listaOportunidade = new ArrayList<Oportunidade>()
-
-    /*
-        Acessa o endereço https://www.servidor.gov.br/assuntos/oportunidades/abertas
-        e traz as oportunidades cadastradas.
-    *
-    def buscarOportunidade() {
+        List<Oportunidade> listaOportunidade = new ArrayList<Oportunidade>()
 
         def tagsoupParser = new org.ccil.cowan.tagsoup.Parser()
 
@@ -70,32 +28,33 @@ class OportunidadeService {
             listaOportunidade.add(op)
 
         }
+
+        this.salvarOportunidades(listaOportunidade)
     }
 
-    def salvarOportunidades() {
-
-        def mongoService = new MongoService()
-        def foo = mongoService.collection('servidores')
-
-        Oportunidade oportunidade = new Oportunidade(
-            titulo: 'Teste',
-            descricao: 'Descricao de teste',
-            link: 'https://teste.com'
-        )
-
-        def json = JsonOutput.toJson(oportunidade).replace("{", "[").replace("}", "]")
-
-        //def data = json.collect { it as BasicDBObject }
-        def data = [
-            [firstName: 'Jane', lastName: 'Doe'],
-            [firstName: 'Elvis', lastName: 'Presley']
-        ].collect { it as BasicDBObject }
-
-        foo.insert(data)
-
-        foo.insert(data)
-
-        println "Oportunidades salvas na base!"
-    }
+    /*
+        Cadastra as oportunidades encontradas na base
     */
+    private void salvarOportunidades(List<Oportunidade> oportunidades) {
+
+        OportunidadeRepository repository = new OportunidadeRepository()
+
+        repository.salvarOportunidade(oportunidades)
+
+    }
+
+    /*
+        Notifica aos usuários das novas oportunidades disponíveis no site
+    */
+    void notificarOportunidades() {
+
+    }
+
+    /*
+        Recupera da base as oportunidades cadastradas e que ainda não foram enviadas para os
+        usuários.
+    */
+    private void recuperarNovasOportunidades() {
+
+    }
 }
