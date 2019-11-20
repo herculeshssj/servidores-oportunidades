@@ -1,33 +1,43 @@
-import com.mongodb.MongoClient
-import com.mongodb.DBCollection
+import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
 import com.mongodb.DB
+
+/*
+
+
 import com.mongodb.BasicDBObject
 
+*/
 class MongoService {
 
     private MongoClient mongoClient
+    private DB db
 
-    def host = "mongodb-container"
-    def port = 27017
-    def databaseName = "oportunidade"
-    def user = "root"
-    def pass = "root"
+    private String host = "mongodb-container"
+    private int port = 27017
+    private String databaseName = "oportunidade"
+    private String user = "oport"
+    private String password = "s3cretp4assw0rd"
 
-    public MongoClient getClient() {
-        mongoClient = mongoClient ?: new MongoClient(host, port)
-        return mongoClient
+    public DB getDB() {
+
+        final MongoCredential credencial = MongoCredential.createCredential(user, databaseName, password.toCharArray())
+
+        ServerAddress serverAddress = new ServerAddress(host, port)
+
+        this.mongoClient = new MongoClient(serverAddress, new ArrayList<MongoCredential>(){
+            { 
+                add(credencial)
+            }
+        })
+
+        this.db = this.mongoClient.getDB(databaseName)
+
+        return this.db
     }
 
-    public DBCollection collection(collectionName) {
-        DB db = getClient().getDB(databaseName)
-        
-        boolean authenticated = db.auth(user, pass)
-        if (authenticated) {
-            println "Authenticated on DB"
-        } else {
-            println "Failed to authenticate on DB"
-        }
-
-        return db.getCollection(collectionName)
+    public void close() {
+        this.mongoClient.close()
     }
 }

@@ -1,9 +1,3 @@
-Starting Groovysh
-=================
-
-docker run -it --rm groovy
-
-
 Running a Groovy script
 =======================
 
@@ -24,8 +18,26 @@ docker run --name mongodb-express -p 8081:8081 --link mongodb-container -e ME_CO
 Configuring database
 ====================
 
-Enter in http://localhost:8081 and create a new database called 'oportunidade'.
+Enter on MongDB container
 
+docker exec -it mongodb-container mongo -u root -p 'root'
+
+Create a new user
+
+> use oportunidade
+> db.createUser({
+    user: 'oport',
+    pwd: 's3cretp4assw0rd',
+    roles: [{ role: 'readWrite', db:'oportunidade'}]
+})
+
+Create a empty collection
+
+> db.createCollection("delete_me")
+
+Exit from MongoDB console
+
+> quit()
 
 Running application
 ===================
