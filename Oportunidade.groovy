@@ -4,6 +4,6 @@ class Oportunidade {
     String link
 
     String toString() {
-        return this.titulo + " - " + this.descricao + "\n\n" + this.link
+        return this.titulo + " - " + this.descricao + "\n\r" + this.link
     }
 }

@@ -1,11 +1,14 @@
-import Oportunidades
+import OportunidadeService
 import Oportunidade
 
-static void main(String... args) {
-    
-    Oportunidades oportunidades = new Oportunidades().buscarOportunidades()
+public static void main(String... args) {
 
-    for (Oportunidade op : oportunidades.listaOportunidade) {
-        println op.toString()
+    OportunidadeService service = new OportunidadeService()
+
+    service.buscarOportunidade()
+
+    for (Oportunidade oportunidade : service.listaOportunidade) {
+        println oportunidade.toString()
     }
+    
 }

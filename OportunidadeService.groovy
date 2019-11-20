@@ -1,8 +1,8 @@
 import groovy.util.XmlSlurper
-import Oportunidade
 import java.util.ArrayList
+import Oportunidade
 
-class Oportunidades {
+class OportunidadeService {
 
     def listaOportunidade = new ArrayList<Oportunidade>()
 
@@ -10,7 +10,7 @@ class Oportunidades {
         Acessa o endereço https://www.servidor.gov.br/assuntos/oportunidades/abertas
         e traz as oportunidades cadastradas.
     */
-    def buscarOportunidades() {
+    def buscarOportunidade() {
 
         @Grab(group='org.ccil.cowan.tagsoup', module='tagsoup', version='1.2')
         def tagsoupParser = new org.ccil.cowan.tagsoup.Parser()
@@ -30,7 +30,5 @@ class Oportunidades {
             listaOportunidade.add(op)
 
         }
-
-        println "Oportunidades carregadas!"
     }
 }
