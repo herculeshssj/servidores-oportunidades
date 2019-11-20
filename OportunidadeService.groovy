@@ -1,3 +1,4 @@
+import java.security.MessageDigest
 import groovy.util.XmlSlurper
 import Oportunidade
 
@@ -25,6 +26,7 @@ class OportunidadeService {
             op.titulo = it.h2.a.text()
             op.descricao = it.p.span.text()
             op.link = it.h2.a.@href.text()
+            op.hash = this.generateMD5(op.toString())
             listaOportunidade.add(op)
 
         }
@@ -57,4 +59,10 @@ class OportunidadeService {
     private void recuperarNovasOportunidades() {
 
     }
+
+    private String generateMD5(String s) {
+        MessageDigest digest = MessageDigest.getInstance("MD5")
+        digest.update(s.bytes);
+        return new BigInteger(1, digest.digest()).toString(16).padLeft(32, '0')
+    } 
 }

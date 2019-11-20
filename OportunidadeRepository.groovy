@@ -21,8 +21,6 @@ class OportunidadeRepository {
         }
 
         mongoService.close()
-
-        println "Oportunidade salva na base!"
     }
 
     private DBObject createMongoObject(Oportunidade oportunidade) {
@@ -36,6 +34,7 @@ class OportunidadeRepository {
         docBuilder.append("periodoInscricao", oportunidade.periodoInscricao)
         docBuilder.append("link", oportunidade.link)
         docBuilder.append("enviado", oportunidade.enviado)
+        docBuilder.append("hash", oportunidade.hash)
 
 		return docBuilder.get();
     }

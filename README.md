@@ -55,5 +55,5 @@ Running application
 ===================
 
 ```
-docker run --rm --link mongodb-container -v "$PWD":/home/groovy/scripts -w /home/groovy/scripts groovy groovy Main.groovy
+docker run --name servidores-oportunidades --rm --link mongodb-container -v "$PWD":/home/groovy/scripts -w /home/groovy/scripts groovy groovy Main.groovy
 ```
