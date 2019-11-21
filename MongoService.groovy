@@ -3,12 +3,6 @@ import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.DB
 
-/*
-
-
-import com.mongodb.BasicDBObject
-
-*/
 class MongoService {
 
     private MongoClient mongoClient
