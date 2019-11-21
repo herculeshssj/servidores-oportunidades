@@ -2,8 +2,10 @@
 @Grab(group = 'org.ccil.cowan.tagsoup', module = 'tagsoup', version = '1.2')
 
 import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
 import OportunidadeService
 import Oportunidade
+import TelegramMessage
 
 public static void main(String... args) {
 
@@ -18,18 +20,46 @@ public static void main(String... args) {
         println "Token do Telegram Bot não informado. Saindo..."
     } else {
 
-        String getResult = new URL('https://api.telegram.org/bot' + telegramBotToken + '/getMe').text
-        /*
+        String getResult = new URL('https://api.telegram.org/bot' + telegramBotToken + '/getUpdates').text
+
         def jsonSlurper = new JsonSlurper()
         def object = jsonSlurper.parseText(getResult)
 
-        println object.ok
-        println object.result.id
-        println object.result.is_bot
-        println object.result.first_name
-        println object.result.username
-*/
+        if (object.ok) {
+            
+            // Grava os chats IDs
+            Set<Long> chatIds = new HashSet<Long>()
+            for (it in object.result) {
+                chatIds.add(it.message.chat.id)
+            }
+            
+            // Itera os chat Ids para enviar a notificação das oportunidades para os inscritos
+            String postResult
+            for ( chatID in chatIds ) {
 
+                TelegramMessage telegramMessage = new TelegramMessage()
+                telegramMessage.chat_id = chatID
+                telegramMessage.text = "Olá, bem vindo ao mundo! :)"
+
+                def json = JsonOutput.toJson(telegramMessage)
+
+                ((HttpURLConnection)new URL('https://api.telegram.org/bot' + telegramBotToken + '/sendMessage').openConnection()).with({
+                    requestMethod = 'POST'
+                    doOutput = true
+                    setRequestProperty('Content-Type', 'application/json')
+                    outputStream.withPrintWriter({ printWriter -> 
+                        printWriter.write(json)
+                    })
+                    postResult = inputStream.text
+                })
+
+                println postResult
+                
+            }
+
+        } else {
+            println "Falha na requisição! Saindo..."
+        }
     }
 
     // Inicializa o serviço
