@@ -1,6 +1,7 @@
 import com.mongodb.DBCollection
-import com.mongodb.DBObject;
-import com.mongodb.BasicDBObjectBuilder;
+import com.mongodb.DBObject
+import com.mongodb.BasicDBObject
+import com.mongodb.BasicDBObjectBuilder
 
 import MongoService
 
@@ -17,7 +18,13 @@ class OportunidadeRepository {
         DBCollection servidoresCollection = mongoService.getDB().getCollection("servidores");
 
         for (Oportunidade oportunidade : oportunidades) {
-            servidoresCollection.insert(this.createMongoObject(oportunidade))
+
+            DBObject query = new BasicDBObject("hash", oportunidade.hash)
+
+            // Cadastra somente as oportunidades novas
+            if (servidoresCollection.findOne(query) == null) {
+                servidoresCollection.insert(this.createMongoObject(oportunidade))
+            } 
         }
 
         mongoService.close()
