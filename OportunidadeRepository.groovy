@@ -11,7 +11,7 @@ import MongoService
 
 class OportunidadeRepository {
     
-    void salvarOportunidade(List<Oportunidade> oportunidades) {
+    void salvarOportunidades(List<Oportunidade> oportunidades) {
 
         MongoService mongoService = new MongoService()
 

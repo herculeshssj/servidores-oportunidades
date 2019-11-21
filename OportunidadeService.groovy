@@ -41,7 +41,7 @@ class OportunidadeService {
 
         OportunidadeRepository repository = new OportunidadeRepository()
 
-        repository.salvarOportunidade(oportunidades)
+        repository.salvarOportunidades(oportunidades)
 
     }
 
