@@ -49,15 +49,21 @@ class OportunidadeService {
         Notifica aos usuários das novas oportunidades disponíveis no site
     */
     void notificarOportunidades() {
+        List<Oportunidade> listaOportunidades = this.recuperarNovasOportunidades()
 
+        for (Oportunidade op : listaOportunidades) {
+            println op.toString()
+        }
     }
 
     /*
         Recupera da base as oportunidades cadastradas e que ainda não foram enviadas para os
         usuários.
     */
-    private void recuperarNovasOportunidades() {
+    private List<Oportunidade> recuperarNovasOportunidades() {
+        OportunidadeRepository repository = new OportunidadeRepository()
 
+        return repository.buscarOportunidadesNaoEnviadas()
     }
 
     private String generateMD5(String s) {
