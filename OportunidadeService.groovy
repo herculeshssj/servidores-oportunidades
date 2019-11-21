@@ -51,9 +51,7 @@ class OportunidadeService {
     void notificarOportunidades() {
         List<Oportunidade> listaOportunidades = this.recuperarNovasOportunidades()
 
-        for (Oportunidade op : listaOportunidades) {
-            println op.toString()
-        }
+        // TODO seguir a partir daqui
     }
 
     /*
