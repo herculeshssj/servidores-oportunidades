@@ -1,6 +1,9 @@
 import java.security.MessageDigest
 import groovy.util.XmlSlurper
+import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
 import Oportunidade
+import TelegramMessage
 
 class OportunidadeService {
 
@@ -48,10 +51,57 @@ class OportunidadeService {
     /*
         Notifica aos usuários das novas oportunidades disponíveis no site
     */
-    void notificarOportunidades() {
+    void notificarOportunidades(String telegramBotToken) {
         List<Oportunidade> listaOportunidades = this.recuperarNovasOportunidades()
 
-        // TODO seguir a partir daqui
+        String getResult = new URL('https://api.telegram.org/bot' + telegramBotToken + '/getUpdates').text
+
+        def jsonSlurper = new JsonSlurper()
+        def object = jsonSlurper.parseText(getResult)
+
+        if (object.ok) {
+            
+            // Grava os chats IDs
+            Set<Long> chatIds = new HashSet<Long>()
+            for (it in object.result) {
+                chatIds.add(it.message.chat.id)
+            }
+            
+            // Itera os chat Ids para enviar a notificação das oportunidades para os inscritos
+            String postResult
+            for ( chatID in chatIds ) {
+
+                /* Início do loop para envio das oportunidades */
+                TelegramMessage telegramMessage = new TelegramMessage()
+                telegramMessage.chat_id = chatID
+                telegramMessage.text = "Olá, bem vindo ao mundo! :)"
+
+                def json = JsonOutput.toJson(telegramMessage)
+
+                ((HttpURLConnection)new URL('https://api.telegram.org/bot' + telegramBotToken + '/sendMessage').openConnection()).with({
+                    requestMethod = 'POST'
+                    doOutput = true
+                    setRequestProperty('Content-Type', 'application/json')
+                    outputStream.withPrintWriter({ printWriter -> 
+                        printWriter.write(json)
+                    })
+                    postResult = inputStream.text
+                })
+
+                println postResult                
+                def objectResult = jsonSlurper.parseText(postResult)
+                if (objectResult.ok) {
+                    println "Envio bem sucedido"
+                } else {
+                    println "Falha no envio"
+                }
+                /* Término do loop de envio das oportunidades */
+                
+            }
+
+        } else {
+            println "Falha na requisição! Saindo..."
+        }
     }
 
     /*
