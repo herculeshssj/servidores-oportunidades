@@ -37,6 +37,7 @@ public static void main(String... args) {
             String postResult
             for ( chatID in chatIds ) {
 
+                /* Início do loop para envio das oportunidades */
                 TelegramMessage telegramMessage = new TelegramMessage()
                 telegramMessage.chat_id = chatID
                 telegramMessage.text = "Olá, bem vindo ao mundo! :)"
@@ -53,7 +54,14 @@ public static void main(String... args) {
                     postResult = inputStream.text
                 })
 
-                println postResult
+                println postResult                
+                def objectResult = jsonSlurper.parseText(postResult)
+                if (objectResult.ok) {
+                    println "Envio bem sucedido"
+                } else {
+                    println "Falha no envio"
+                }
+                /* Término do loop de envio das oportunidades */
                 
             }
 
