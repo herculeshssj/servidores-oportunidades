@@ -13,14 +13,6 @@ class Oportunidade {
     }
 
     String toString() {
-        return this.titulo 
-            + " - " 
-            + this.descricao 
-            + "\n\r" 
-            + this.uf
-            + " - "
-            + this.periodoInscricao
-            + "\n\r"
-            + this.link
+        return this.titulo + "\n\r" + this.descricao + "\n\rUF: " + (this.uf == null ? '-' : this.uf) + "\n\rInscrição até: " + (this.periodoInscricao == null ? '-' : this.periodoInscricao) + "\n\r" + this.link
     }
 }

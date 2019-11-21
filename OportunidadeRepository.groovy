@@ -50,23 +50,23 @@ class OportunidadeRepository {
         DBCollection servidoresCollection = mongoService.getDB().getCollection("servidores")
 
         DBObject query = new BasicDBObject("enviado", false)
-        BasicDBObject fields = new BasicDBObject("titulo", 1).append("link", 1)
 
-        DBCursor cursor = servidoresCollection.find(query, fields)
+        DBCursor cursor = servidoresCollection.find(query)
 
         List<Oportunidade> listaResultado = new ArrayList<Oportunidade>()
 
         try {
             while (cursor.hasNext()) {
                 
-                BasicDBObject dbobj = cursor.next()
-                
+                DBObject dbobj = cursor.next()
+
                 Oportunidade op = new Oportunidade()
                 op.titulo = dbobj.titulo
                 op.descricao = dbobj.descricao
                 op.periodoInscricao = dbobj.periodoInscricao
                 op.uf = dbobj.uf
                 op.link = dbobj.link
+                op.hash = dbobj.hash
 
                 listaResultado.add(op)
 
