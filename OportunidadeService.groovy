@@ -53,6 +53,7 @@ class OportunidadeService {
     */
     void notificarOportunidades(String telegramBotToken) {
         List<Oportunidade> listaOportunidades = this.recuperarNovasOportunidades()
+        List<Oportunidade> listaOportunidadesEnviadas = new ArrayList<Oportunidade>()
 
         String getResult = new URL('https://api.telegram.org/bot' + telegramBotToken + '/getUpdates').text
 
@@ -69,35 +70,38 @@ class OportunidadeService {
             
             // Itera os chat Ids para enviar a notificação das oportunidades para os inscritos
             String postResult
-            for ( chatID in chatIds ) {
 
-                /* Início do loop para envio das oportunidades */
-                TelegramMessage telegramMessage = new TelegramMessage()
-                telegramMessage.chat_id = chatID
-                telegramMessage.text = "Olá, bem vindo ao mundo! :)"
+            for (Oportunidade op : listaOportunidades) {
+                for ( chatID in chatIds ) {
+                    
+                    TelegramMessage telegramMessage = new TelegramMessage()
+                    telegramMessage.chat_id = chatID
+                    telegramMessage.text = op.toString()
 
-                def json = JsonOutput.toJson(telegramMessage)
+                    def json = JsonOutput.toJson(telegramMessage)
 
-                ((HttpURLConnection)new URL('https://api.telegram.org/bot' + telegramBotToken + '/sendMessage').openConnection()).with({
-                    requestMethod = 'POST'
-                    doOutput = true
-                    setRequestProperty('Content-Type', 'application/json')
-                    outputStream.withPrintWriter({ printWriter -> 
-                        printWriter.write(json)
+                    ((HttpURLConnection)new URL('https://api.telegram.org/bot' + telegramBotToken + '/sendMessage').openConnection()).with({
+                        requestMethod = 'POST'
+                        doOutput = true
+                        setRequestProperty('Content-Type', 'application/json')
+                        outputStream.withPrintWriter({ printWriter -> 
+                            printWriter.write(json)
+                        })
+                        postResult = inputStream.text
                     })
-                    postResult = inputStream.text
-                })
 
-                println postResult                
-                def objectResult = jsonSlurper.parseText(postResult)
-                if (objectResult.ok) {
-                    println "Envio bem sucedido"
-                } else {
-                    println "Falha no envio"
+                    println postResult                
+                    def objectResult = jsonSlurper.parseText(postResult)
                 }
-                /* Término do loop de envio das oportunidades */
-                
+                listaOportunidadesEnviadas.add(op)
+
+                // Pausa de 2 segundo entre as requisições
+                sleep(2000)
+
             }
+
+            // Atualiza as oportunidades enviadas com sucesso
+            this.atualizarOportunidadesEnviadas(listaOportunidadesEnviadas)
 
         } else {
             println "Falha na requisição! Saindo..."
@@ -112,6 +116,12 @@ class OportunidadeService {
         OportunidadeRepository repository = new OportunidadeRepository()
 
         return repository.buscarOportunidadesNaoEnviadas()
+    }
+
+    private void atualizarOportunidadesEnviadas(List<Oportunidade> oportunidades) {
+        OportunidadeRepository repository = new OportunidadeRepository()
+
+        repository.atualizarOportunidades(oportunidades)
     }
 
     private String generateMD5(String s) {
