@@ -53,7 +53,8 @@ class OportunidadeService {
     */
     void notificarOportunidades(String telegramBotToken) {
         List<Oportunidade> listaOportunidades = this.recuperarNovasOportunidades()
-        List<Oportunidade> listaOportunidadesEnviadas = new ArrayList<Oportunidade>()
+        
+        OportunidadeRepository repository = new OportunidadeRepository()
 
         String getResult = new URL('https://api.telegram.org/bot' + telegramBotToken + '/getUpdates').text
 
@@ -93,15 +94,12 @@ class OportunidadeService {
 
                     def objectResult = jsonSlurper.parseText(postResult)
                 }
-                listaOportunidadesEnviadas.add(op)
+                
+                repository.atualizarOportunidade(op)
 
                 // Pausa de 5 segundo entre as requisições
                 sleep(5000)
-
             }
-
-            // Atualiza as oportunidades enviadas com sucesso
-            this.atualizarOportunidadesEnviadas(listaOportunidadesEnviadas)
 
         } else {
             println "Falha na requisição! Saindo..."
@@ -116,12 +114,6 @@ class OportunidadeService {
         OportunidadeRepository repository = new OportunidadeRepository()
 
         return repository.buscarOportunidadesNaoEnviadas()
-    }
-
-    private void atualizarOportunidadesEnviadas(List<Oportunidade> oportunidades) {
-        OportunidadeRepository repository = new OportunidadeRepository()
-
-        repository.atualizarOportunidades(oportunidades)
     }
 
     private String generateMD5(String s) {

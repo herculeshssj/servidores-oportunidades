@@ -81,20 +81,16 @@ class OportunidadeRepository {
         return listaResultado
     }
 
-    void atualizarOportunidades(List<Oportunidade> oportunidades) {
+    void atualizarOportunidade(Oportunidade oportunidade) {
 
         MongoService mongoService = new MongoService()
 
         DBCollection servidoresCollection = mongoService.getDB().getCollection("selecoes");
 
-        for (Oportunidade oportunidade : oportunidades) {
-
-            DBObject query = new BasicDBObject("hash", oportunidade.hash)
-            DBObject update = new BasicDBObject()
-            update.put('$set', new BasicDBObject("enviado", true))
-            WriteResult result = servidoresCollection.update(query, update)
-
-        }
+        DBObject query = new BasicDBObject("hash", oportunidade.hash)
+        DBObject update = new BasicDBObject()
+        update.put('$set', new BasicDBObject("enviado", true))
+        WriteResult result = servidoresCollection.update(query, update)
 
         mongoService.close()
     }
