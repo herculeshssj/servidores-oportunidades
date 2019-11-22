@@ -72,6 +72,7 @@ class OportunidadeService {
             String postResult
 
             for (Oportunidade op : listaOportunidades) {
+                
                 for ( chatID in chatIds ) {
                     
                     TelegramMessage telegramMessage = new TelegramMessage()
@@ -90,13 +91,12 @@ class OportunidadeService {
                         postResult = inputStream.text
                     })
 
-                    println postResult                
                     def objectResult = jsonSlurper.parseText(postResult)
                 }
                 listaOportunidadesEnviadas.add(op)
 
-                // Pausa de 2 segundo entre as requisições
-                sleep(2000)
+                // Pausa de 5 segundo entre as requisições
+                sleep(5000)
 
             }
 

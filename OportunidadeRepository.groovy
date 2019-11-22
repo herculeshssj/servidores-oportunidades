@@ -91,7 +91,7 @@ class OportunidadeRepository {
 
             DBObject query = new BasicDBObject("hash", oportunidade.hash)
             DBObject update = new BasicDBObject()
-            update.put("$set", new BasicDBObject("enviado", true))
+            update.put('$set', new BasicDBObject("enviado", true))
             WriteResult result = servidoresCollection.update(query, update)
 
         }
