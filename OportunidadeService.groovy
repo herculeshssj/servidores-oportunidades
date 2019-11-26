@@ -68,12 +68,15 @@ class OportunidadeService {
             for (it in object.result) {
                 chatIds.add(it.message.chat.id)
             }
-            
+
             // Itera os chat Ids para enviar a notificação das oportunidades para os inscritos
             String postResult
 
             for (Oportunidade op : listaOportunidades) {
                 
+                // Lista de chats enviados
+                Set<Long> chatsEnviados = new HashSet<Long>()
+
                 for ( chatID in chatIds ) {
                     
                     TelegramMessage telegramMessage = new TelegramMessage()
@@ -93,10 +96,16 @@ class OportunidadeService {
                     })
 
                     def objectResult = jsonSlurper.parseText(postResult)
+
+                    if (objectResult.ok) {
+                        chatsEnviados.add(chatID)
+                    }
                 }
                 
-                repository.atualizarOportunidade(op)
-
+                if (chatsEnviados.size() == chatIds.size()) {
+                    repository.atualizarOportunidade(op)
+                }
+                
                 // Pausa de 5 segundo entre as requisições
                 sleep(5000)
             }
