@@ -102,7 +102,7 @@ class OportunidadeService {
                     }
                 }
                 
-                if (chatsEnviados.size() == chatIds.size()) {
+                if (chatsEnviados.size() != 0 && chatsEnviados.size() == chatIds.size()) {
                     repository.atualizarOportunidade(op)
                 }
                 
