@@ -51,7 +51,7 @@ class OportunidadeService {
     /*
         Notifica aos usuários das novas oportunidades disponíveis no site
     */
-    void notificarOportunidades(String telegramBotToken) {
+    void notificarOportunidades(String telegramBotToken, Long channelID) {
         List<Oportunidade> listaOportunidades = this.recuperarNovasOportunidades()
         
         OportunidadeRepository repository = new OportunidadeRepository()
@@ -66,8 +66,15 @@ class OportunidadeService {
             // Grava os chats IDs
             Set<Long> chatIds = new HashSet<Long>()
             for (it in object.result) {
-                chatIds.add(it.message.chat.id)
+                if (it.message != null) {
+                    chatIds.add(it.message.chat.id)
+                } else if (it.channel_post != null) {
+                    chatIds.add(it.channel_post.chat.id)
+                }
             }
+
+            // Inclui o Chat ID do canal
+            chatIds.add(channelID)
 
             // Itera os chat Ids para enviar a notificação das oportunidades para os inscritos
             String postResult

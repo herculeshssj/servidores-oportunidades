@@ -8,8 +8,13 @@ public static void main(String... args) {
 
     // Obtém o token do Telegram Bot
     String telegramBotToken = null
+    Long channelID = null
     if (args.length != 0) {
         telegramBotToken = args[0]
+
+        if (args.length == 2) {
+            channelID = Long.parseLong(args[1])
+        }
     }
 
     // Verifica se o token do Telegram Bot foi informado
@@ -24,7 +29,7 @@ public static void main(String... args) {
         service.buscarOportunidades()
 
         // Envia a notificação das novas oportunidades
-        service.notificarOportunidades(telegramBotToken)
+        service.notificarOportunidades(telegramBotToken, channelID)
 
     }    
 }
