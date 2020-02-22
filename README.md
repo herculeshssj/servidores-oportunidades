@@ -9,7 +9,7 @@ Running MongoDB Docker container
 ================================
 
 ```
-docker run --restart=unless-stopped --name mongodb-container -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=root -v "$HOME"/MONGODBDATA:/data/db -d mongo
+docker run --restart=unless-stopped --name mongodb-container -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=root -v "$HOME"/MONGODBDATA:/data/db -v "$HOME"/backup:/backup -d mongo
 ```
 
 Running MongoDB Express web client
@@ -56,4 +56,18 @@ Running application
 
 ```
 docker run --name servidores-oportunidades --rm --link mongodb-container -v "$PWD":/home/groovy/scripts -w /home/groovy/scripts groovy groovy Main.groovy <Telegram Bot token>
+```
+
+Backing the database
+====================
+
+```
+docker exec -i mongodb-container mongodump -u oport -p 's3cretp4assw0rd' --db oportunidade --out /backup/oportunidade.dump
+```
+
+Restoring the database
+======================
+
+```
+docker exec -t mongodb-container mongorestore -u oport -p 's3cretp4assw0rd' --db oportunidade --drop /backup/oportunidade.dump/oportunidade
 ```
