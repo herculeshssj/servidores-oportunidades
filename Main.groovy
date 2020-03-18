@@ -25,8 +25,16 @@ public static void main(String... args) {
         // Inicializa o serviço
         OportunidadeService service = new OportunidadeService()
 
+        List<String> linkOportunidades = new ArrayList<>()
+        linkOportunidades.add("https://www.servidor.gov.br/assuntos/oportunidades/divulgacao/cessao-1/cessao")
+        linkOportunidades.add("https://www.servidor.gov.br/assuntos/oportunidades/divulgacao/movimentacao/movimentacao")
+        linkOportunidades.add("https://www.servidor.gov.br/assuntos/oportunidades/divulgacao/requisicao/requisicao")
+        linkOportunidades.add("https://www.servidor.gov.br/assuntos/oportunidades/divulgacao/ex-territorios/ex-territorios")
+
         // Busca as oportunidades
-        service.buscarOportunidades()
+        for (String link : linkOportunidades) {
+            service.buscarOportunidades(link)
+        }        
 
         // Envia a notificação das novas oportunidades
         service.notificarOportunidades(telegramBotToken, channelID)

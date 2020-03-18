@@ -8,10 +8,10 @@ import TelegramMessage
 class OportunidadeService {
 
     /*
-        Acessa o endereço https://www.servidor.gov.br/assuntos/oportunidades/abertas
-        e traz as oportunidades disponíveis. 
+        Acessa o endereço disponível no site https://www.servidor.gov.br/assuntos/oportunidades
+        e traz as oportunidades disponíveis.
     */
-    void buscarOportunidades() {
+    void buscarOportunidades(String link) {
 
         List<Oportunidade> listaOportunidade = new ArrayList<Oportunidade>()
 
@@ -19,7 +19,7 @@ class OportunidadeService {
 
         def parser = new XmlSlurper(tagsoupParser)
 
-        def html = parser.parse("https://www.servidor.gov.br/assuntos/oportunidades/abertas")
+        def html = parser.parse(link)
 
         Oportunidade op = null
 
