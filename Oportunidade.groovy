@@ -7,9 +7,11 @@ class Oportunidade {
     String link
     boolean enviado
     String hash
+    Date dataCadastro
 
     public Oportunidade() {
         enviado = false;
+        dataCadastro = new Date()
     }
 
     String toString() {

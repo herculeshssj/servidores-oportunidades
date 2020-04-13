@@ -40,6 +40,7 @@ class OportunidadeRepository {
         docBuilder.append("link", oportunidade.link)
         docBuilder.append("enviado", oportunidade.enviado)
         docBuilder.append("hash", oportunidade.hash)
+        docBuilder.append("dataCadastro", oportunidade.dataCadastro)
 
 		return docBuilder.get();
     }
