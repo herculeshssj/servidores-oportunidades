@@ -1,6 +1,6 @@
-@Grab(group = 'org.ccil.cowan.tagsoup', module = 'tagsoup', version = '1.2')
+//@Grab(group = 'org.ccil.cowan.tagsoup', module = 'tagsoup', version = '1.2')
 
-import groovy.util.XmlSlurper
+//import groovy.util.XmlSlurper
 
 class Concurso {
     Long id
@@ -11,14 +11,22 @@ class Concurso {
     String hash
     Date dataCadastro
     String cargos
-    String salario
+    Double salario
     String nivelEscolaridade
     Integer vagas
     String vagasCargosSalarios
     String periodoInscricao
     Date dataTerminoInscricao
 
+    public Concurso() {
+        dataCadastro = new Date()
+    }
 
+    String toString() {
+        return this.titulo + "\n\r" + this.descricao + "\n\rUF: " + (this.uf == null ? '-' : this.uf) + "\n\r" + this.link
+    }
+
+/*
 public static void main(String... args) {
     
     def link = "https://www.pciconcursos.com.br/concursos/"
@@ -58,5 +66,5 @@ public static void main(String... args) {
 
 
 }
-
+*/
 }
