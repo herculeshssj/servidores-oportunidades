@@ -2,7 +2,7 @@
 @Grab(group = 'org.ccil.cowan.tagsoup', module = 'tagsoup', version = '1.2')
 
 import OportunidadeService
-import Oportunidade
+import ConcursoService
 
 public static void main(String... args) {
 
@@ -22,8 +22,9 @@ public static void main(String... args) {
         println "Token do Telegram Bot não informado. Saindo..."
     } else {
 
-        // Inicializa o serviço
+        // Inicializa os serviços
         OportunidadeService service = new OportunidadeService()
+        ConcursoService serviceConcurso = new ConcursoService()
 
         List<String> linkOportunidades = new ArrayList<>()
         linkOportunidades.add("https://www.servidor.gov.br/assuntos/oportunidades/divulgacao/cessao-1/cessao")
@@ -39,5 +40,18 @@ public static void main(String... args) {
         // Envia a notificação das novas oportunidades
         service.notificarOportunidades(telegramBotToken, channelID)
 
+        // Atualiza o cadastro de concursos
+        List<String> linkConcursos = new ArrayList<>()
+        linkConcursos.add("https://www.pciconcursos.com.br/concursos/")
+        linkConcursos.add("https://www.pciconcursos.com.br/concursos/nacional/")
+        linkConcursos.add("https://www.pciconcursos.com.br/concursos/sudeste/")
+        linkConcursos.add("https://www.pciconcursos.com.br/concursos/sul/")
+        linkConcursos.add("https://www.pciconcursos.com.br/concursos/norte/")
+        linkConcursos.add("https://www.pciconcursos.com.br/concursos/nordeste/")
+        linkConcursos.add("https://www.pciconcursos.com.br/concursos/centrooeste/")
+
+        for (String link : linkConcursos) {
+            serviceConcurso.buscarConcursos(link)
+        }
     }    
 }
