@@ -29,7 +29,7 @@ class ConcursoService {
 
             it.div.div.each { value ->
                 if (value['@class'] == 'cc') {
-                    concurso.uf = value
+                    concurso.uf = value.text().trim()
                 }
                 if (value['@class'] == 'cd') {
                     concurso.vagasCargosSalarios = value

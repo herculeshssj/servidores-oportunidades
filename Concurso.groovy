@@ -23,7 +23,7 @@ class Concurso {
     }
 
     String toString() {
-        return this.titulo + "\n\r" + this.descricao + "\n\rUF: " + (this.uf == null ? '-' : this.uf) + "\n\r" + this.link
+        return this.titulo + "\n\r" + this.descricao + "\n\rUF: " + this.uf + "\n\r" + this.link
     }
 
 /*
