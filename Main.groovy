@@ -27,10 +27,10 @@ public static void main(String... args) {
         ConcursoService serviceConcurso = new ConcursoService()
 
         List<String> linkOportunidades = new ArrayList<>()
-        linkOportunidades.add("https://www.servidor.gov.br/assuntos/oportunidades/divulgacao/cessao-1/cessao")
-        linkOportunidades.add("https://www.servidor.gov.br/assuntos/oportunidades/divulgacao/movimentacao/movimentacao")
-        linkOportunidades.add("https://www.servidor.gov.br/assuntos/oportunidades/divulgacao/requisicao/requisicao")
-        linkOportunidades.add("https://www.servidor.gov.br/assuntos/oportunidades/divulgacao/ex-territorios/ex-territorios")
+        linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/cessao-1/cessao")
+        linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/movimentacao/movimentacao")
+        linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/requisicao/requisicao")
+        linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/ex-territorios/ex-territorios")
 
         // Busca as oportunidades
         for (String link : linkOportunidades) {
