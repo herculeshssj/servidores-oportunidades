@@ -73,8 +73,9 @@ class OportunidadeService {
                 }
             }
 
-            // Inclui o Chat ID do canal
-            chatIds.add(channelID)
+            // Inclui o Chat ID do canal caso tenha sido informado
+            if (channelID != null)
+                chatIds.add(channelID)
 
             // Itera os chat Ids para enviar a notificação das oportunidades para os inscritos
             String postResult

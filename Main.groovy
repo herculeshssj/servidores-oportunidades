@@ -6,17 +6,41 @@ import ConcursoService
 
 public static void main(String... args) {
 
-    // Obtém o token do Telegram Bot
+    // Inicializa as variáveis
     String telegramBotToken = null
     Long channelID = null
-    if (args.length != 0) {
-        telegramBotToken = args[0]
+    boolean rodarEmThread = false
 
-        if (args.length == 2) {
-            channelID = Long.parseLong(args[1])
+    // Obtém os parâmetros passados via linha de comando
+    if (args != null) {
+        switch(args.length) {
+            case 1: 
+                telegramBotToken = args[0];
+                break;
+            case 2:
+                telegramBotToken = args[0];
+                channelID = Long.parseLong(args[1]);
+                break;
+            case 3:
+                telegramBotToken = args[0];
+                channelID = Long.parseLong(args[1]);
+                rodarEmThread = true;
+                break;
+            default:
+                println "Nenhum parâmetro informado! Saindo..."
+                System.exit(-1)
         }
+    } else {
+        println "Nenhum parâmetro informado! Saindo..."
+        System.exit(-1)
     }
 
+    // Inicia o loop que monitora as oportunidades
+    do {
+        println "Rodando em threading...."
+        System.sleep(3600000)
+    } while (rodarEmThread)
+        
     // Verifica se o token do Telegram Bot foi informado
     if (telegramBotToken == null) {
         println "Token do Telegram Bot não informado. Saindo..."
