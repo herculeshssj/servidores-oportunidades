@@ -55,8 +55,12 @@ Running application
 ===================
 
 ```
-docker run --name servidores-oportunidades --rm --link mongodb-container -v "$PWD":/home/groovy/scripts -w /home/groovy/scripts groovy groovy Main.groovy <Telegram Bot token> <Telegram Channel ID>
+docker run --name servidores-oportunidades --rm --link mongodb-container -v "$PWD":/home/groovy/scripts -w /home/groovy/scripts groovy groovy Main.groovy <Telegram Bot token> <Telegram Channel ID> [-t]
 ```
+
+The '-t' parameter (optional) indicates a running in thread, useful to run the application in background or inside a container.
+
+If you want to keep the application running continuously, change the "--rm" parameter to "--restart=unless-stopped" in the Docker command. After the "-w" parameter, add a "-d" parameter for container run in background.
 
 Backing the database
 ====================
@@ -70,4 +74,30 @@ Restoring the database
 
 ```
 docker exec -t mongodb-container mongorestore -u oport -p 's3cretp4assw0rd' --db oportunidade --drop /backup/oportunidade.dump/oportunidade
+```
+
+Troubleshooting
+===============
+
+If you have problems with an SSL certificate, import the CA certificate using the Java class InstallCert.java.
+
+## Compilation:
+
+
+```
+javac InstallCert.java
+```
+
+## Execution:
+
+```
+java InstallCert www.example.com
+```
+
+Include only the domain, the first part between the "https://" and the first slash.
+
+After that, run the application using this command:
+
+```
+docker run --name servidores-oportunidades --rm --link mongodb-container -v "$PWD":/home/groovy/scripts -v $PWD/jssecacerts:/opt/java/openjdk/lib/security/jssecacerts -w /home/groovy/scripts groovy groovy Main.groovy <Telegram Bot token> <Telegram Channel ID> [-t]
 ```
