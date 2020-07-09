@@ -37,15 +37,7 @@ public static void main(String... args) {
 
     // Inicia o loop que monitora as oportunidades
     do {
-        println "Rodando em threading...."
-        System.sleep(3600000)
-    } while (rodarEmThread)
         
-    // Verifica se o token do Telegram Bot foi informado
-    if (telegramBotToken == null) {
-        println "Token do Telegram Bot não informado. Saindo..."
-    } else {
-
         // Inicializa os serviços
         OportunidadeService service = new OportunidadeService()
         ConcursoService serviceConcurso = new ConcursoService()
@@ -77,5 +69,8 @@ public static void main(String... args) {
         for (String link : linkConcursos) {
             serviceConcurso.buscarConcursos(link)
         }
-    }    
+
+        System.sleep(3600000)
+    } while (rodarEmThread)
+     
 }
