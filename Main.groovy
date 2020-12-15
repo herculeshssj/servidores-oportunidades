@@ -1,5 +1,5 @@
-@Grab(group = 'org.mongodb', module = 'mongodb-driver', version = '3.11.2')
-@Grab(group = 'org.ccil.cowan.tagsoup', module = 'tagsoup', version = '1.2')
+@Grab(group = 'org.mongodb', module = 'mongodb-driver', version = '3.12.7')
+@Grab(group = 'org.ccil.cowan.tagsoup', module = 'tagsoup', version = '1.2.1')
 
 import OportunidadeService
 import ConcursoService
@@ -43,9 +43,9 @@ public static void main(String... args) {
         ConcursoService serviceConcurso = new ConcursoService()
 
         List<String> linkOportunidades = new ArrayList<>()
-        linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/cessao-1/cessao")
-        linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/movimentacao/movimentacao")
-        linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/requisicao/requisicao")
+        //linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/cessao-1/cessao")
+        //linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/movimentacao/movimentacao")
+        //linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/requisicao/requisicao")
         linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/ex-territorios/ex-territorios")
 
         // Busca as oportunidades
@@ -58,13 +58,13 @@ public static void main(String... args) {
 
         // Atualiza o cadastro de concursos
         List<String> linkConcursos = new ArrayList<>()
-        linkConcursos.add("https://www.pciconcursos.com.br/concursos/")
+        //linkConcursos.add("https://www.pciconcursos.com.br/concursos/")
         linkConcursos.add("https://www.pciconcursos.com.br/concursos/nacional/")
-        linkConcursos.add("https://www.pciconcursos.com.br/concursos/sudeste/")
-        linkConcursos.add("https://www.pciconcursos.com.br/concursos/sul/")
-        linkConcursos.add("https://www.pciconcursos.com.br/concursos/norte/")
-        linkConcursos.add("https://www.pciconcursos.com.br/concursos/nordeste/")
-        linkConcursos.add("https://www.pciconcursos.com.br/concursos/centrooeste/")
+        //linkConcursos.add("https://www.pciconcursos.com.br/concursos/sudeste/")
+        //linkConcursos.add("https://www.pciconcursos.com.br/concursos/sul/")
+        //linkConcursos.add("https://www.pciconcursos.com.br/concursos/norte/")
+        //linkConcursos.add("https://www.pciconcursos.com.br/concursos/nordeste/")
+        //linkConcursos.add("https://www.pciconcursos.com.br/concursos/centrooeste/")
 
         for (String link : linkConcursos) {
             serviceConcurso.buscarConcursos(link)
