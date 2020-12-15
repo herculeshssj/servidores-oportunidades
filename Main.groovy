@@ -43,9 +43,9 @@ public static void main(String... args) {
         ConcursoService serviceConcurso = new ConcursoService()
 
         List<String> linkOportunidades = new ArrayList<>()
-        //linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/cessao-1/cessao")
-        //linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/movimentacao/movimentacao")
-        //linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/requisicao/requisicao")
+        linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/cessao-1/cessao")
+        linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/movimentacao/movimentacao")
+        linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/requisicao/requisicao")
         linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/ex-territorios/ex-territorios")
 
         // Busca as oportunidades
@@ -58,19 +58,21 @@ public static void main(String... args) {
 
         // Atualiza o cadastro de concursos
         List<String> linkConcursos = new ArrayList<>()
-        //linkConcursos.add("https://www.pciconcursos.com.br/concursos/")
+        linkConcursos.add("https://www.pciconcursos.com.br/concursos/")
         linkConcursos.add("https://www.pciconcursos.com.br/concursos/nacional/")
-        //linkConcursos.add("https://www.pciconcursos.com.br/concursos/sudeste/")
-        //linkConcursos.add("https://www.pciconcursos.com.br/concursos/sul/")
-        //linkConcursos.add("https://www.pciconcursos.com.br/concursos/norte/")
-        //linkConcursos.add("https://www.pciconcursos.com.br/concursos/nordeste/")
-        //linkConcursos.add("https://www.pciconcursos.com.br/concursos/centrooeste/")
+        linkConcursos.add("https://www.pciconcursos.com.br/concursos/sudeste/")
+        linkConcursos.add("https://www.pciconcursos.com.br/concursos/sul/")
+        linkConcursos.add("https://www.pciconcursos.com.br/concursos/norte/")
+        linkConcursos.add("https://www.pciconcursos.com.br/concursos/nordeste/")
+        linkConcursos.add("https://www.pciconcursos.com.br/concursos/centrooeste/")
 
         for (String link : linkConcursos) {
             serviceConcurso.buscarConcursos(link)
         }
 
-        System.sleep(3600000)
+        if (rodarEmThread)
+            System.sleep(3600000)
+
     } while (rodarEmThread)
      
 }
