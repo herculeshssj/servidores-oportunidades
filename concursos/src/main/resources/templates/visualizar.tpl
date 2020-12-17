@@ -35,11 +35,6 @@ html(lang:'en') {
                     td(concurso.uf ?: '')
                 }
                 tr {
-                    td("Cadastrado em")
-                    td(":")
-                    td(concurso.dataCadastro ?: '')
-                }
-                tr {
                     td("Cargos")
                     td(":")
                     td(concurso.cargos ?: '')
