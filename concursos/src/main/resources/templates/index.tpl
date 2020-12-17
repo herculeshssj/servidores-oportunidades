@@ -11,9 +11,9 @@ html(lang:'en') {
         div {
             table(border: "1") {
                 tr {
-                    th("Título")
-                    th("Descrição")  
-                    th("Edit")                  
+                    th("Titulo")
+                    th("Descricao")
+                    th("UF")
                 }
                 listConcurso.each { concurso ->
                     tr {
@@ -21,9 +21,7 @@ html(lang:'en') {
                             a(href:"/$concurso.id", "$concurso.titulo")
                         }
                         td("$concurso.descricao")
-                        td {
-                            a(href:"/$concurso.id/edit", "Edit")
-                        }
+                        td(concurso.uf ?: '')
                     }
                 }
             }

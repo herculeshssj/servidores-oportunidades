@@ -38,9 +38,8 @@ class ConcursoController {
             ex.printStackTrace()
         }
     
-        model.addAttribute("concurso", concurso);
-        model.addAttribute("allowDelete", false);
-        model.addAttribute("errorMessage", errorMessage);
+        model.addAttribute("concurso", concurso)
+        model.addAttribute("errorMessage", errorMessage)
         return "visualizar";
     }
 }

@@ -13,22 +13,17 @@ html(lang:'en') {
         div {
             table(border: "0") {
                 tr {
-                    td("Id")
-                    td(":")
-                    td(concurso.id ?: '')
-                }
-                tr {
-                    td("Título")
+                    td("Titulo")
                     td(":")
                     td(concurso.titulo ?: '')
                 }
                 tr {
-                    td("Descrição")
+                    td("Descricao")
                     td(":")
                     td(concurso.descricao ?: '')
                 }
                 tr {
-                    td("UF")
+                    td("Link")
                     td(":")
                     td {
                         a(href: "$concurso.link", concurso.link)
@@ -38,14 +33,9 @@ html(lang:'en') {
                     td("UF")
                     td(":")
                     td(concurso.uf ?: '')
-                }                
-                tr {
-                    td("Hash")
-                    td(":")
-                    td(concurso.hash ?: '')
                 }
                 tr {
-                    td("Data de Cadastro")
+                    td("Cadastrado em")
                     td(":")
                     td(concurso.dataCadastro ?: '')
                 }
@@ -55,12 +45,12 @@ html(lang:'en') {
                     td(concurso.cargos ?: '')
                 }
                 tr {
-                    td("Salário")
+                    td("Salario")
                     td(":")
                     td(concurso.salario ?: '')
                 }
                 tr {
-                    td("Nível de Escolaridade")
+                    td("Nivel de Escolaridade")
                     td(":")
                     td(concurso.nivelEscolaridade ?: '')
                 }
@@ -70,17 +60,17 @@ html(lang:'en') {
                     td(concurso.vagas ?: '')
                 }
                 tr {
-                    td("Vagas, cargos e salários")
+                    td("Vagas, cargos e salarios")
                     td(":")
                     td(concurso.vagasCargosSalarios ?: '')
                 }
                 tr {
-                    td("Período de Inscrição")
+                    td("Periodo de Inscricao")
                     td(":")
                     td(concurso.periodoInscricao ?: '')
                 }
                 tr {
-                    td("Data de Término da Inscrição")
+                    td("Data de Termino da Inscricao")
                     td(":")
                     td(concurso.dataTerminoInscricao ?: '')
                 }
@@ -88,19 +78,6 @@ html(lang:'en') {
         }
         br()
         br()
-        if (allowDelete) {
-            form (id:"deleteForm", action:"/$concurso.id/delete", method:"POST") {
-                yield 'Excluir esse concurso? '
-                input(type: 'submit', value: 'Yes')
-            }
-        }
-        else {
-            div {
-                a(href: "/$concurso.id/edit", "Edit")
-                yield ' | '
-                a(href: "/$concurso.id/delete", "Delete")
-            }
-        }
         if (errorMessage!=null) {
             div(class: "error", "$errorMessage")
         }
