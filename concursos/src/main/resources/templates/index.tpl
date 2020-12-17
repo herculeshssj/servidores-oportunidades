@@ -7,7 +7,36 @@ html(lang:'en') {
     }
     body {
         h1 ("$title")
-        
+
+        div {
+            form (id: "searchForm", action:"/buscar", method:"POST") {
+                table(border: "0") {
+                    tr {
+                        td("Titulo")
+                        td {
+                            input(name: 'buscaTitulo', type: 'text', value: buscaTitulo ?: '')
+                        }
+                        td("Descricao")
+                        td {
+                            input(name: 'buscaDescricao', type: 'text', value: buscaDescricao ?: '')
+                        }
+                        td("UF")
+                        td {
+                            select (id: 'buscaUf', name: 'buscaUf', value: buscaUf) {
+                                estados.each { estado ->
+                                    option("$estado")
+                                }
+                            }
+                        }
+                        td {
+                            input(type: 'submit', value: 'Buscar')
+                        }
+                    }
+                }
+            }
+        }
+
+        br()
         div {
             table(border: "1") {
                 tr {
@@ -28,11 +57,8 @@ html(lang:'en') {
         }
 
         br()
-        br()
-        div("Concursos encontrados: ") 
-        div ("$concursosEncontrados")
+        div("Concursos encontrados: $concursosEncontrados")
 
-        br()
         br()
         div ("Copyright &copy; herculeshssj")
     }

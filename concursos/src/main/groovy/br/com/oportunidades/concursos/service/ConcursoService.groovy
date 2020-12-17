@@ -19,4 +19,12 @@ class ConcursoService {
     Optional<Concurso> findById(String id) {
         return concursoRepository.findById(id);
     }
+
+    List findByTituloOrDescricaoOrUf(String titulo, String descricao, String uf) {
+        return concursoRepository.findByTituloOrDescricaoOrUf(titulo, descricao, uf)
+    }
+
+    List findByUf(String uf) {
+        return concursoRepository.findByUf(uf)
+    }
 }
