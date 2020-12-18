@@ -49,10 +49,8 @@ class ConcursoController {
 
     @GetMapping("/")
     public String index(Model model) {
-        List listConcurso = concursoService.findAll()
         model.addAttribute("title", "Concursos")
-        model.addAttribute("concursosEncontrados", listConcurso.size())
-        model.addAttribute("listConcurso", listConcurso)
+        model.addAttribute("concursosEncontrados", 0)
         model.addAttribute("estados", this.estados())
         return "index";
     }
