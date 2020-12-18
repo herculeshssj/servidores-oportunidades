@@ -57,8 +57,8 @@ class ConcursoController {
 
     @GetMapping(value = "/{concursoId}")
     public String findById(Model model, @PathVariable String concursoId) {
-        Concurso concurso = null
-        String errorMessage = null
+        Concurso concurso = new Concurso()
+        String errorMessage = ''
 
         try {
             Optional<Concurso> optConcurso = concursoService.findById(concursoId)
