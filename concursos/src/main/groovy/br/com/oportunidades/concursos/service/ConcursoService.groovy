@@ -21,10 +21,35 @@ class ConcursoService {
     }
 
     List findByTituloOrDescricaoOrUf(String titulo, String descricao, String uf) {
-        return concursoRepository.findByTituloOrDescricaoOrUf(titulo, descricao, uf)
-    }
+        List<Concurso> listaConcurso = new ArrayList<>()
 
-    List findByUf(String uf) {
-        return concursoRepository.findByUf(uf)
+        if (uf.equalsIgnoreCase('Nacional'))
+            uf = ''
+
+        if (uf.equalsIgnoreCase('Todos')) {
+            // A busca só inclui título e descricao
+
+            if (titulo.isEmpty() && !descricao.isEmpty()) {
+                listaConcurso = concursoRepository.findByDescricao(descricao)
+            } else if (!titulo.isEmpty() && descricao.isEmpty()) {
+                listaConcurso = concursoRepository.findByTitulo(titulo)
+            } else {
+                // TODO fazer buscar por titulo e descricao
+                // TODO caso titulo e descricao sejam vazios, executar o findAll
+                listaConcurso = concursoRepository.findAll()
+            }
+
+        } else {
+
+            if (titulo.isEmpty() && !descricao.isEmpty()) {
+                listaConcurso = concursoRepository.findByDescricaoAndUf(descricao, uf)
+            } else if (!titulo.isEmpty() && descricao.isEmpty()) {
+                listaConcurso = concursoRepository.findByTituloAndUf(titulo, uf)
+            } else {
+                listaConcurso = concursoRepository.findByUf(uf)
+            }
+        }
+
+        return listaConcurso
     }
 }

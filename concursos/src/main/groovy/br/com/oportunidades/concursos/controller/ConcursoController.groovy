@@ -84,20 +84,7 @@ class ConcursoController {
                          @ModelAttribute("buscaDescricao") String buscaDescricao,
                          @ModelAttribute("buscaUf") String buscaUf) {
 
-        List<Concurso> listConcurso = new ArrayList<>()
-
-        if (buscaUf.equalsIgnoreCase("Todos")) {
-
-            listConcurso = concursoService.findAll()
-
-        } else {
-
-            if (buscaUf.equalsIgnoreCase("Nacional")) {
-                buscaUf = ''
-            }
-            listConcurso = concursoService.findByUf(buscaUf)
-
-        }
+        List<Concurso> listConcurso = concursoService.findByTituloOrDescricaoOrUf(buscaTitulo, buscaDescricao, buscaUf)
 
         model.addAttribute("title", "Concursos")
         model.addAttribute("concursosEncontrados", listConcurso.size())

@@ -31,6 +31,9 @@ html(lang:'en') {
                         td {
                             input(type: 'submit', value: 'Buscar')
                         }
+                        td {
+                            input(type: 'reset', value: 'Limpar')
+                        }
                     }
                 }
             }
