@@ -13,9 +13,11 @@ class Concurso {
     String vagasCargosSalarios
     String periodoInscricao
     Date dataTerminoInscricao
+    boolean arquivado
 
     public Concurso() {
         dataCadastro = new Date()
+        arquivado = false
     }
 
     String toString() {

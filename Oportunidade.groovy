@@ -8,10 +8,12 @@ class Oportunidade {
     boolean enviado
     String hash
     Date dataCadastro
+    boolean arquivado
 
     public Oportunidade() {
-        enviado = false;
+        enviado = false
         dataCadastro = new Date()
+        arquivado = false
     }
 
     String toString() {

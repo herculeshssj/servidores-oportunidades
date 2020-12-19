@@ -50,6 +50,7 @@ class ConcursoRepository {
         docBuilder.append("vagasCargosSalarios", concurso.vagasCargosSalarios)
         docBuilder.append("periodoInscricao", concurso.periodoInscricao)
         docBuilder.append("dataTerminoInscricao", concurso.dataTerminoInscricao)
+        docBuilder.append("arquivado", concurso.arquivado)
 
 		return docBuilder.get();
     }

@@ -41,6 +41,7 @@ class OportunidadeRepository {
         docBuilder.append("enviado", oportunidade.enviado)
         docBuilder.append("hash", oportunidade.hash)
         docBuilder.append("dataCadastro", oportunidade.dataCadastro)
+        docBuilder.append("arquivado", oportunidade.arquivado)
 
 		return docBuilder.get();
     }
@@ -69,6 +70,7 @@ class OportunidadeRepository {
                 op.uf = dbobj.uf
                 op.link = dbobj.link
                 op.hash = dbobj.hash
+                op.arquivado = dbobj.arquivado
 
                 listaResultado.add(op)
 
