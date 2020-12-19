@@ -12,10 +12,6 @@ class ConcursoService {
     @Autowired
     ConcursoRepository concursoRepository
 
-    List findAll() {
-        return concursoRepository.findAll();
-    }
-
     Optional<Concurso> findById(String id) {
         return concursoRepository.findById(id);
     }
@@ -36,7 +32,7 @@ class ConcursoService {
             } else {
                 // TODO fazer buscar por titulo e descricao
                 // TODO caso titulo e descricao sejam vazios, executar o findAll
-                listaConcurso = concursoRepository.findAll()
+                listaConcurso = concursoRepository.findByArquivado(false)
             }
 
         } else {
@@ -54,16 +50,12 @@ class ConcursoService {
     }
 
     void arquivar(String concursoId) {
-        try {
-            Optional<Concurso> concursoOptional = concursoRepository.findById(concursoId)
+        Optional<Concurso> concursoOptional = concursoRepository.findById(concursoId)
 
-            if (concursoOptional.isPresent()) {
-                Concurso concurso = concursoOptional.get()
-                concurso.arquivado = true
-                concursoRepository.save(concurso)
-            }
-        } catch (Exception e) {
-            e.printStackTrace()
+        if (concursoOptional.isPresent()) {
+            Concurso concurso = concursoOptional.get()
+            concurso.arquivado = true
+            concursoRepository.save(concurso)
         }
     }
 }
