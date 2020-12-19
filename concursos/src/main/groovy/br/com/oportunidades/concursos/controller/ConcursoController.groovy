@@ -76,6 +76,13 @@ class ConcursoController {
         return "visualizar"
     }
 
+    @PostMapping("/arquivar")
+    public String arquivar(Model model, @ModelAttribute("concursoId") String concursoId) {
+        System.out.println(concursoId)
+        concursoService.arquivar(concursoId)
+        return this.findById(model, concursoId)
+    }
+
     @PostMapping("/buscar")
     public String buscar(Model model,
                          @ModelAttribute("buscaTitulo") String buscaTitulo,

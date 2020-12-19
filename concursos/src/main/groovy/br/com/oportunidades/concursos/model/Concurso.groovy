@@ -8,7 +8,6 @@ class Concurso {
 
     @Id
     String id
-
     String titulo
     String descricao
     String link
@@ -22,6 +21,7 @@ class Concurso {
     String vagasCargosSalarios
     String periodoInscricao
     Date dataTerminoInscricao
+    Boolean arquivado
 
     /*
     public Concurso() {

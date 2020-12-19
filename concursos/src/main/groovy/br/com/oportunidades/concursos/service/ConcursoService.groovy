@@ -52,4 +52,18 @@ class ConcursoService {
 
         return listaConcurso
     }
+
+    void arquivar(String concursoId) {
+        try {
+            Optional<Concurso> concursoOptional = concursoRepository.findById(concursoId)
+
+            if (concursoOptional.isPresent()) {
+                Concurso concurso = concursoOptional.get()
+                concurso.arquivado = true
+                concursoRepository.save(concurso)
+            }
+        } catch (Exception e) {
+            e.printStackTrace()
+        }
+    }
 }

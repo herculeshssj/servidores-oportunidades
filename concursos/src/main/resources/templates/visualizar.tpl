@@ -26,13 +26,18 @@ html(lang:'en') {
                     td("Link")
                     td(":")
                     td {
-                        a(href: "$concurso.link", concurso.link)
+                        a(href: "$concurso.link", concurso.link, target: "_blank")
                     }
                 }
                 tr {
                     td("UF")
                     td(":")
                     td(concurso.uf ?: '')
+                }
+                tr {
+                    td("Cadastrado em")
+                    td(":")
+                    td(concurso.dataCadastro ?: '')
                 }
                 tr {
                     td("Cargos")
@@ -72,9 +77,13 @@ html(lang:'en') {
             }
         }
         br()
-        br()
-        if (errorMessage!=null) {
-            div(class: "error", "$errorMessage")
+        if (!concurso.arquivado) {
+            form (id:"arquivarForm", action:"/arquivar", method:"POST") {
+                input(name: 'concursoId', type: 'hidden', value: concurso.id)
+                input(type: 'submit', value: 'ARQUIVAR')
+            }
+        } else {
+            h3("CONCURSO ARQUIVADO!")
         }
     }
 }
