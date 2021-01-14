@@ -15,7 +15,7 @@ class ConcursoController {
     @Autowired
     ConcursoService concursoService
 
-    @GetMapping("/")
+    @GetMapping
     public String index(Model model) {
         model.addAttribute("title", "Concursos")
         model.addAttribute("concursosEncontrados", 0)
@@ -23,7 +23,7 @@ class ConcursoController {
         return "index";
     }
 
-    @GetMapping(value = "/{concursoId}")
+    @GetMapping(value = "{concursoId}")
     public String findById(Model model, @PathVariable String concursoId) {
         Concurso concurso = new Concurso()
         String errorMessage = ''
@@ -45,14 +45,14 @@ class ConcursoController {
     }
 
     //@PostMapping("/arquivar")
-    @GetMapping("/arquivar")
+    @GetMapping("arquivar/{concursoId}")
     public String arquivar(Model model, @ModelAttribute("concursoId") String concursoId) {
         concursoService.arquivar(concursoId)
         return this.findById(model, concursoId)
     }
 
     //@PostMapping("/buscar")
-    @GetMapping("/buscar")
+    @GetMapping("buscar")
     public String buscar(Model model,
                          @ModelAttribute("buscaTitulo") String buscaTitulo,
                          @ModelAttribute("buscaDescricao") String buscaDescricao,
