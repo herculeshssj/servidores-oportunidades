@@ -13,6 +13,8 @@ repositories {
 }
 
 dependencies {
+	// https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-json
+	compile group: 'org.codehaus.groovy', name: 'groovy-json', version: '3.0.7'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-groovy-templates'
 	implementation 'org.springframework.boot:spring-boot-starter-security'

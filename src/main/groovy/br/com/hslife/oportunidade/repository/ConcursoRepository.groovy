@@ -4,7 +4,9 @@ import br.com.hslife.oportunidade.model.Concurso
 import ch.qos.logback.core.pattern.color.BoldBlueCompositeConverter
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query
+import org.springframework.stereotype.Repository
 
+@Repository
 interface ConcursoRepository extends MongoRepository<Concurso, String> {
 
     @Query(value = '{$and: [{titulo: {$regex: ?0,$options: "i"}},{descricao: {$regex: ?1,$options: "i"}},{uf: ?2}, {arquivado: false}]}', sort = '{titulo: 1}')

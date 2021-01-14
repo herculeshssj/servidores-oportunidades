@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 class Oportunidade {
 
     @Id
-    Long id
+    String id
     String titulo
     String descricao
     String uf
@@ -19,7 +19,7 @@ class Oportunidade {
     boolean arquivado
 
     public Oportunidade() {
-        enviado = false
+        enviado = true
         dataCadastro = new Date()
         arquivado = false
     }
