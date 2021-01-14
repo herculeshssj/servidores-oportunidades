@@ -19,7 +19,7 @@ class Oportunidade {
     boolean arquivado
 
     public Oportunidade() {
-        enviado = true
+        enviado = false
         dataCadastro = new Date()
         arquivado = false
     }
