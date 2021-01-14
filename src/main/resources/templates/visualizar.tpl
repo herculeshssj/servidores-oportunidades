@@ -78,7 +78,7 @@ html(lang:'en') {
         }
         br()
         if (!concurso.arquivado) {
-            form (id:"arquivarForm", action:"/arquivar", method:"POST") {
+            form (id:"arquivarForm", action:"/arquivar", method:"GET") {
                 input(name: 'concursoId', type: 'hidden', value: concurso.id)
                 input(type: 'submit', value: 'ARQUIVAR')
             }

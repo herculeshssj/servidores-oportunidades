@@ -9,6 +9,12 @@ html(lang:'en') {
         h1 ("$title")
 
         div {
+            a(href:"/logout", "Sair")
+        }
+
+        br()
+
+        div {
             form (id: "searchForm", action:"/buscar", method:"GET") {
                 table(border: "0") {
                     tr {
