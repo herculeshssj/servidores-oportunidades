@@ -26,5 +26,7 @@ interface ConcursoRepository extends MongoRepository<Concurso, String> {
     List<Concurso> findByUf(String uf)
 
     List<Concurso> findByArquivado(Boolean arquivado)
+
+    Concurso findByHash(String hash)
 }
 

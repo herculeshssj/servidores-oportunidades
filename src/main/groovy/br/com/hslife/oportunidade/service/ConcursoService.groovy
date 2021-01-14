@@ -5,6 +5,8 @@ import br.com.hslife.oportunidade.repository.ConcursoRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
+import java.security.MessageDigest
+
 
 @Service
 class ConcursoService {
@@ -57,5 +59,71 @@ class ConcursoService {
             concurso.arquivado = true
             concursoRepository.save(concurso)
         }
+    }
+
+    /*
+        Busca os concursos registrados no link passado
+    */
+    void buscarConcursos(String link) {
+
+        List<Concurso> listaConcursos = new ArrayList<Concurso>()
+
+        def tagsoupParser = new org.ccil.cowan.tagsoup.Parser()
+
+        def parser = new XmlSlurper(tagsoupParser)
+
+        def html = parser.parse(link)
+
+        def tagsContents = html.'**'.findAll { it.div.@class == 'ca'}
+
+        tagsContents.each {
+
+            Concurso concurso = new Concurso()
+
+            concurso.titulo = it.div.a.text()
+            concurso.descricao = it.div.a['@title']
+            concurso.link = it.div.a['@href']
+
+            it.div.div.each { value ->
+                if (value['@class'] == 'cc') {
+                    concurso.uf = value.text().trim()
+
+                    if (concurso.uf.length() != 2) {
+                        concurso.uf = ''
+                    }
+                }
+                if (value['@class'] == 'cd') {
+                    concurso.vagasCargosSalarios = value
+                }
+                if (value['@class'] == 'ce') {
+                    concurso.periodoInscricao = value
+                }
+            }
+
+            concurso.hash = this.generateMD5(concurso.toString())
+
+            // Busca o concurso para saber se o mesmo já foi cadastrado
+            Concurso c = concursoRepository.findByHash(concurso.hash)
+            if (c == null) {
+                listaConcursos.add(concurso)
+            }
+        }
+
+        this.salvarConcursos(listaConcursos)
+    }
+
+    /*
+        Cadastra os concursos encontrados na base
+    */
+    private void salvarConcursos(List<Concurso> concursos) {
+
+        concursoRepository.saveAll(concursos)
+        System.out.println("Concursos cadastrados: " + concursos.size())
+    }
+
+    private String generateMD5(String s) {
+        MessageDigest digest = MessageDigest.getInstance("MD5")
+        digest.update(s.bytes);
+        return new BigInteger(1, digest.digest()).toString(16).padLeft(32, '0')
     }
 }
