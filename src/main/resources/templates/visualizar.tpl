@@ -7,7 +7,7 @@ html(lang:'en') {
     }
     body {
         h1("Concurso - Visualizar")
-        a(href: "/", "Voltar a listagem")
+        a(href: "$spring.contextPath", "Voltar a listagem")
         br()
         br()
         div {
@@ -78,7 +78,7 @@ html(lang:'en') {
         }
         br()
         if (!concurso.arquivado) {
-            form (id:"arquivarForm", action:"/arquivar", method:"GET") {
+            form (id:"arquivarForm", action:"arquivar", method:"GET") {
                 input(name: 'concursoId', type: 'hidden', value: concurso.id)
                 input(type: 'submit', value: 'ARQUIVAR')
             }

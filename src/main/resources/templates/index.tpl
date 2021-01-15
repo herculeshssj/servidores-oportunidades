@@ -9,13 +9,13 @@ html(lang:'en') {
         h1 ("$title")
 
         div {
-            a(href:"/logout", "Sair")
+            a(href:"logout", "Sair")
         }
 
         br()
 
         div {
-            form (id: "searchForm", action:"/buscar", method:"GET") {
+            form (id: "searchForm", action:"buscar", method:"GET") {
                 table(border: "0") {
                     tr {
                         td("Titulo")
@@ -56,7 +56,7 @@ html(lang:'en') {
                 listConcurso.each { concurso ->
                     tr {
                         td {
-                            a(href:"/$concurso.id", "$concurso.titulo")
+                            a(href:"$concurso.id", "$concurso.titulo")
                         }
                         td("$concurso.descricao")
                         td(concurso.uf ?: '')

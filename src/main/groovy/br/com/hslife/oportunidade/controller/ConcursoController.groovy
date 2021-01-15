@@ -45,7 +45,7 @@ class ConcursoController {
     }
 
     //@PostMapping("/arquivar")
-    @GetMapping("arquivar/{concursoId}")
+    @GetMapping("arquivar")
     public String arquivar(Model model, @ModelAttribute("concursoId") String concursoId) {
         concursoService.arquivar(concursoId)
         return this.findById(model, concursoId)
