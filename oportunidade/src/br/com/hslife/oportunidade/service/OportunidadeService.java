@@ -1,63 +1,90 @@
 package br.com.hslife.oportunidade.service;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import br.com.hslife.oportunidade.model.Oportunidade;
+import br.com.hslife.oportunidade.repository.OportunidadeRepository;
 
 @Service
 public class OportunidadeService {
 
-    public void buscarOportunidades(String link) {
-        System.out.println(link);
-    }
-
-    /*
     @Autowired
-    OportunidadeRepository oportunidadeRepository
+    OportunidadeRepository oportunidadeRepository;
 
-    /*
-        Acessa o endereço disponível no site https://www.servidor.gov.br/assuntos/oportunidades
-        e traz as oportunidades disponíveis.
-    *
-    void buscarOportunidades(String link) {
+    public void buscarOportunidades(String link) {
+    
+        try {
 
-        List<Oportunidade> listaOportunidade = new ArrayList<Oportunidade>()
+            List<Oportunidade> listaOportunidade = new ArrayList<>();
 
-        def tagsoupParser = new org.ccil.cowan.tagsoup.Parser()
+            Document doc = Jsoup.connect(link).get();
 
-        def parser = new XmlSlurper(tagsoupParser)
+            Elements contents = doc.select(".tileContent");
+    
+            for (Iterator<Element> i = contents.iterator(); i.hasNext(); ) {
+                Element content = i.next();
+    
+                Oportunidade op = Oportunidade.builder()
+                    .titulo(content.select(".tileHeadline").text())
+                    .descricao(content.select(".tileBody").text())
+                    .link(content.select(".tileHeadline").select("a").first().attr("href"))
+                    .build();
 
-        def html = parser.parse(link)
+                // Trata os valores nulos e vazios
+                op.setTitulo(op.getTitulo() == null || op.getTitulo().isEmpty() ? "-" : op.getTitulo());
+                op.setDescricao(op.getDescricao() == null || op.getDescricao().isEmpty() ? "-" : op.getDescricao());
+                op.setLink(op.getLink() == null || op.getLink().isEmpty() ? "-" : op.getLink());
 
-        Oportunidade op = null
+                // Gera o hash a partir das informações inseridas
+                op.setHash(this.SHA256(op.toString()));
 
-        html.'**'.findAll { it.@class == 'tileContent' }.each {
-            
-            op = new Oportunidade()
-            op.titulo = it.h2.a.text()
-            op.descricao = it.p.span.text()
-            op.link = it.h2.a.@href.text()
-            op.hash = this.generateMD5(op.toString())
+                // Setando os demais atributos
+                op.setDataCadastro(LocalDate.now());
+                op.setArquivado(false);
+                op.setEnviado(false);
 
-            // Verifica se a oportunidade já foi cadastrada
-            Oportunidade o = oportunidadeRepository.findByHash(op.hash)
-            if (o == null) {
-                listaOportunidade.add(op)
+                listaOportunidade.add(op);
             }
 
-        }
+            // Salva todas as oportunidades
+            oportunidadeRepository.salvarOportunidades(listaOportunidade);
 
-        this.salvarOportunidades(listaOportunidade)
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /*
-        Cadastra as oportunidades encontradas na base
-    *
-    private void salvarOportunidades(List<Oportunidade> oportunidades) {
-
-        oportunidadeRepository.saveAll(oportunidades)
-        System.out.println("Oportunidades cadastradas: " + oportunidades.size())
-
+	 * Retorna o texto criptografado em SHA-256
+	 */
+	private String SHA256(String texto) {
+        String sen = "";
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+            BigInteger hash = new BigInteger(1, md.digest(texto.getBytes()));
+            sen = hash.toString(16);
+        } catch (NullPointerException e) {
+        	e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        
+        return sen;
     }
-    */
 
     public void notificarOportunidades(String telegramBotToken, Long channelID) {
         System.out.println("Notificação enviada!");
