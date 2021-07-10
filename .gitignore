@@ -1,9 +1,13 @@
 HELP.md
-.gradle
+*.gradle
+*.class
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+/temp/
+/oportunidade/temp/
+/data/
 
 ### STS ###
 .apt_generated
