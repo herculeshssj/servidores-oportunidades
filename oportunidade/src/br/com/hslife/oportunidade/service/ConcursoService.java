@@ -1,5 +1,8 @@
 package br.com.hslife.oportunidade.service;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class ConcursoService {
 
     /*
@@ -56,8 +59,12 @@ public class ConcursoService {
 
     /*
         Busca os concursos registrados no link passado
-    *
-    void buscarConcursos(String link) {
+    */
+    public void buscarConcursos(String link) {
+        System.out.println(link);
+    }
+    
+    /*
 
         List<Concurso> listaConcursos = new ArrayList<Concurso>()
 

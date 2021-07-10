@@ -1,6 +1,13 @@
 package br.com.hslife.oportunidade.service;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class OportunidadeService {
+
+    public void buscarOportunidades(String link) {
+        System.out.println(link);
+    }
 
     /*
     @Autowired
@@ -50,7 +57,11 @@ public class OportunidadeService {
         System.out.println("Oportunidades cadastradas: " + oportunidades.size())
 
     }
+    */
 
+    public void notificarOportunidades(String telegramBotToken, Long channelID) {
+        System.out.println("Notificação enviada!");
+    }
     /*
         Notifica aos usuários das novas oportunidades disponíveis no site
     *

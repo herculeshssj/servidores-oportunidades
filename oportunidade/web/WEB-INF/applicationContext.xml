@@ -17,6 +17,7 @@
  
     <context:component-scan base-package="br.com.hslife.oportunidade.task" />
     <context:component-scan base-package="br.com.hslife.oportunidade.service" />
+    <context:component-scan base-package="br.com.hslife.oportunidade.repository" />
  
     <!-- Configure the scheduler -->
     <task:scheduler id="oportunidadeScheduler"/>
