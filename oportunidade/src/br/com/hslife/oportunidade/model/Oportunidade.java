@@ -50,7 +50,6 @@ public class Oportunidade extends Identifiable {
 
     @Column
     @ReadOnly
-    @Stereotype("DATETIME")
     LocalDate dataCadastro;
 
     @Column
