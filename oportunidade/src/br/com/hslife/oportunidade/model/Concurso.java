@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="selecoes")
+@Table(name="concursos")
 @Getter @Setter
 public class Concurso extends Identifiable {
     
