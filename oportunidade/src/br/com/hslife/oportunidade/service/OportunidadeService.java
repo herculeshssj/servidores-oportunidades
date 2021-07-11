@@ -108,6 +108,14 @@ public class OportunidadeService {
                 oportunidadeRepository.atualizarOportunidadeEnviada(oportunidade);
             }
 
+            // Faz uma pausa de 5 segundos
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException ie) {
+                System.out.println("Erro no timer de pausa...");
+                ie.printStackTrace();
+            }    
+
         });
 
     }
