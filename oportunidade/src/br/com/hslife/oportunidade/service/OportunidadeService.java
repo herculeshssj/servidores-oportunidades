@@ -1,12 +1,19 @@
 package br.com.hslife.oportunidade.service;
 
 import java.math.BigInteger;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.request.SendMessage;
+import com.pengrad.telegrambot.response.BaseResponse;
+import com.pengrad.telegrambot.response.GetUpdatesResponse;
+import com.pengrad.telegrambot.response.SendResponse;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -25,7 +32,7 @@ public class OportunidadeService {
     OportunidadeRepository oportunidadeRepository;
 
     public void buscarOportunidades(String link) {
-    
+
         try {
 
             List<Oportunidade> listaOportunidade = new ArrayList<>();
@@ -33,15 +40,13 @@ public class OportunidadeService {
             Document doc = Jsoup.connect(link).get();
 
             Elements contents = doc.select(".tileContent");
-    
-            for (Iterator<Element> i = contents.iterator(); i.hasNext(); ) {
+
+            for (Iterator<Element> i = contents.iterator(); i.hasNext();) {
                 Element content = i.next();
-    
-                Oportunidade op = Oportunidade.builder()
-                    .titulo(content.select(".tileHeadline").text())
-                    .descricao(content.select(".tileBody").text())
-                    .link(content.select(".tileHeadline").select("a").first().attr("href"))
-                    .build();
+
+                Oportunidade op = Oportunidade.builder().titulo(content.select(".tileHeadline").text())
+                        .descricao(content.select(".tileBody").text())
+                        .link(content.select(".tileHeadline").select("a").first().attr("href")).build();
 
                 // Trata os valores nulos e vazios
                 op.setTitulo(op.getTitulo() == null || op.getTitulo().isEmpty() ? "-" : op.getTitulo());
@@ -68,9 +73,9 @@ public class OportunidadeService {
     }
 
     /*
-	 * Retorna o texto criptografado em SHA-256
-	 */
-	private String SHA256(String texto) {
+     * Retorna o texto criptografado em SHA-256
+     */
+    private String SHA256(String texto) {
         String sen = "";
         MessageDigest md = null;
         try {
@@ -78,108 +83,35 @@ public class OportunidadeService {
             BigInteger hash = new BigInteger(1, md.digest(texto.getBytes()));
             sen = hash.toString(16);
         } catch (NullPointerException e) {
-        	e.printStackTrace();
+            e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        
+
         return sen;
     }
 
+    /*
+     * Notifica aos usuários das novas oportunidades disponíveis no site
+     */
     public void notificarOportunidades(String telegramBotToken, Long channelID) {
-        System.out.println("Notificação enviada!");
-    }
-    /*
-        Notifica aos usuários das novas oportunidades disponíveis no site
-    *
-    void notificarOportunidades(String telegramBotToken, Long channelID) {
-        List<Oportunidade> listaOportunidades = this.recuperarNovasOportunidades()
+        List<Oportunidade> listaOportunidades = oportunidadeRepository.buscarOportunidadesNaoEnviadas();
 
-        String getResult = new URL('https://api.telegram.org/bot' + telegramBotToken + '/getUpdates').text
+        // Criação do objeto bot com as informações de acesso
+        TelegramBot bot = new TelegramBot(telegramBotToken);
 
-        def jsonSlurper = new JsonSlurper()
-        def object = jsonSlurper.parseText(getResult)
+        listaOportunidades.forEach(oportunidade -> {
 
-        if (object.ok) {
-            
-            // Grava os chats IDs
-            Set<Long> chatIds = new HashSet<Long>()
-            for (it in object.result) {
-                if (it.message != null) {
-                    chatIds.add(it.message.chat.id)
-                } else if (it.channel_post != null) {
-                    chatIds.add(it.channel_post.chat.id)
-                }
+            //envio da mensagem para o canal
+            SendResponse sendResponse = bot.execute(new SendMessage(channelID, oportunidade.toString()));
+
+            //verificação de mensagem enviada com sucesso
+            if (sendResponse.isOk()) {
+                // Seta a oportunidade como enviada
+                oportunidadeRepository.atualizarOportunidadeEnviada(oportunidade);
             }
 
-            // Inclui o Chat ID do canal caso tenha sido informado
-            if (channelID != null)
-                chatIds.add(channelID)
+        });
 
-            // Itera os chat Ids para enviar a notificação das oportunidades para os inscritos
-            String postResult
-
-            for (Oportunidade op : listaOportunidades) {
-                
-                // Lista de chats enviados
-                Set<Long> chatsEnviados = new HashSet<Long>()
-
-                for ( chatID in chatIds ) {
-                    
-                    TelegramMessage telegramMessage = new TelegramMessage()
-                    telegramMessage.chat_id = chatID
-                    telegramMessage.text = op.toString()
-
-                    def json = JsonOutput.toJson(telegramMessage)
-
-                    ((HttpURLConnection)new URL('https://api.telegram.org/bot' + telegramBotToken + '/sendMessage').openConnection()).with({
-                        requestMethod = 'POST'
-                        doOutput = true
-                        setRequestProperty('Content-Type', 'application/json')
-                        outputStream.withPrintWriter({ printWriter -> 
-                            printWriter.write(json)
-                        })
-                        postResult = inputStream.text
-                    })
-
-                    def objectResult = jsonSlurper.parseText(postResult)
-
-                    if (objectResult.ok) {
-                        chatsEnviados.add(chatID)
-                    }
-                }
-                
-                if (chatsEnviados.size() != 0 && chatsEnviados.size() == chatIds.size()) {
-                    this.atualizarOportunidade(op)
-                }
-                
-                // Pausa de 5 segundo entre as requisições
-                sleep(5000)
-            }
-
-        } else {
-            println "Falha na requisição! Saindo..."
-        }
     }
-
-    /*
-        Recupera da base as oportunidades cadastradas e que ainda não foram enviadas para os
-        usuários.
-    *
-    private List<Oportunidade> recuperarNovasOportunidades() {
-        return oportunidadeRepository.findAllNaoEnviados()
-    }
-
-    private String generateMD5(String s) {
-        MessageDigest digest = MessageDigest.getInstance("MD5")
-        digest.update(s.bytes);
-        return new BigInteger(1, digest.digest()).toString(16).padLeft(32, '0')
-    }
-
-    private void atualizarOportunidade(Oportunidade oportunidade) {
-        oportunidade.enviado = true
-        oportunidadeRepository.save(oportunidade)
-    }
-
-    */
 }

@@ -23,7 +23,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Tab(properties = "titulo, descricao, link, arquivado")
+@Tab(properties = "titulo, descricao, link, enviado, arquivado")
 public class Oportunidade extends Identifiable {
     
     @Column(columnDefinition = "text", nullable = false)

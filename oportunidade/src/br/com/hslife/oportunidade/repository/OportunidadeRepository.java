@@ -41,4 +41,21 @@ public class OportunidadeRepository {
 
         });
     }
+
+    /*
+        Recupera da base as oportunidades cadastradas e que ainda não foram enviadas para os
+        usuários.
+    */
+    public List<Oportunidade> buscarOportunidadesNaoEnviadas() {
+        return XPersistence.getManager()
+            .createQuery("SELECT o FROM Oportunidade o WHERE o.enviado = false", Oportunidade.class)
+            .getResultList();
+    }
+
+    public void atualizarOportunidadeEnviada(Oportunidade oportunidade) {
+        Oportunidade op = XPersistence.getManager().find(Oportunidade.class, oportunidade.getId());
+        op.setEnviado(true);
+        XPersistence.getManager().merge(oportunidade);
+        XPersistence.commit();
+    }
 }

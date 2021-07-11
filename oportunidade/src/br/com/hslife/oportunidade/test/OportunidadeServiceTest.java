@@ -1,17 +1,12 @@
 package br.com.hslife.oportunidade.test;
 
-import java.io.IOError;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import br.com.hslife.oportunidade.model.Oportunidade;
 
 public class OportunidadeServiceTest {
 
