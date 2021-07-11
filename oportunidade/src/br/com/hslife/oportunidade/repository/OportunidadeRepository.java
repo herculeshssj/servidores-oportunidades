@@ -55,7 +55,7 @@ public class OportunidadeRepository {
     public void atualizarOportunidadeEnviada(Oportunidade oportunidade) {
         Oportunidade op = XPersistence.getManager().find(Oportunidade.class, oportunidade.getId());
         op.setEnviado(true);
-        XPersistence.getManager().merge(oportunidade);
+        XPersistence.getManager().merge(op);
         XPersistence.commit();
     }
 }

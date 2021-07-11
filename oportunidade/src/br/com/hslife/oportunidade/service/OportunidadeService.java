@@ -108,9 +108,9 @@ public class OportunidadeService {
                 oportunidadeRepository.atualizarOportunidadeEnviada(oportunidade);
             }
 
-            // Faz uma pausa de 5 segundos
+            // Faz uma pausa de 10 segundos
             try {
-                Thread.sleep(5000);
+                Thread.sleep(10000);
             } catch (InterruptedException ie) {
                 System.out.println("Erro no timer de pausa...");
                 ie.printStackTrace();
