@@ -25,6 +25,7 @@ public class ConcursoServiceTest {
             System.out.println("--------------------------------------------------");
             System.out.println(content.select("a").first().text()); // Título
             System.out.println(content.select("a").first().attr("href")); // Link
+            System.out.println(content.select("a").first().attr("title")); // Descrição
             System.out.println(content.select(".cc").text()); // Estado
             System.out.println(content.select(".cd").text()); // Vagas, cargos e salários
             System.out.println(content.select(".ce").text()); // período de inscrição

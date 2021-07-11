@@ -1,131 +1,89 @@
 package br.com.hslife.oportunidade.service;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import br.com.hslife.oportunidade.model.Concurso;
+import br.com.hslife.oportunidade.repository.ConcursoRepository;
 
 @Service
 public class ConcursoService {
 
-    /*
-    
     @Autowired
-    ConcursoRepository concursoRepository
-
-    Optional<Concurso> findById(String id) {
-        return concursoRepository.findById(id);
-    }
-
-    List findByTituloOrDescricaoOrUf(String titulo, String descricao, String uf) {
-        List<Concurso> listaConcurso = new ArrayList<>()
-
-        if (uf.equalsIgnoreCase('Nacional'))
-            uf = ''
-
-        if (uf.equalsIgnoreCase('Todos')) {
-            // A busca só inclui título e descricao
-
-            if (titulo.isEmpty() && !descricao.isEmpty()) {
-                listaConcurso = concursoRepository.findByDescricao(descricao)
-            } else if (!titulo.isEmpty() && descricao.isEmpty()) {
-                listaConcurso = concursoRepository.findByTitulo(titulo)
-            } else {
-                // TODO fazer buscar por titulo e descricao
-                // TODO caso titulo e descricao sejam vazios, executar o findAll
-                listaConcurso = concursoRepository.findByArquivado(false)
-            }
-
-        } else {
-
-            if (titulo.isEmpty() && !descricao.isEmpty()) {
-                listaConcurso = concursoRepository.findByDescricaoAndUf(descricao, uf)
-            } else if (!titulo.isEmpty() && descricao.isEmpty()) {
-                listaConcurso = concursoRepository.findByTituloAndUf(titulo, uf)
-            } else {
-                listaConcurso = concursoRepository.findByUf(uf)
-            }
-        }
-
-        return listaConcurso
-    }
-
-    void arquivar(String concursoId) {
-        Optional<Concurso> concursoOptional = concursoRepository.findById(concursoId)
-
-        if (concursoOptional.isPresent()) {
-            Concurso concurso = concursoOptional.get()
-            concurso.arquivado = true
-            concursoRepository.save(concurso)
-        }
-    }
+    ConcursoRepository concursoRepository;
 
     /*
-        Busca os concursos registrados no link passado
-    */
+     * Busca os concursos registrados no link passado
+     */
     public void buscarConcursos(String link) {
-        System.out.println(link);
+        try {
+
+            List<Concurso> listaConcurso = new ArrayList<>();
+
+            Document doc = Jsoup.connect(link).get();
+
+            Elements contents = doc.select(".ca");        
+
+            for (Iterator<Element> i = contents.iterator(); i.hasNext(); ) {
+                Element content = i.next();
+
+                Concurso concurso = Concurso.builder()
+                    .titulo(content.select("a").first().text())
+                    .link(content.select("a").first().attr("href"))
+                    .uf(content.select(".cc").text())
+                    .descricao(content.select("a").first().attr("title"))
+                    .vagasCargosSalarios(content.select(".cd").text())
+                    .periodoInscricao(content.select(".ce").text())
+                    .arquivado(false)
+                    .dataCadastro(LocalDate.now())
+                    .build();
+
+                // Trata os campos nulos
+                concurso.setDescricao(concurso.getDescricao() == null || concurso.getDescricao().isEmpty() ? "-" : concurso.getDescricao());
+                concurso.setUf(concurso.getUf() == null || concurso.getUf().isEmpty() ? "BR" : concurso.getUf());
+
+                // Gera o hash a partir das informações inseridas
+                concurso.setHash(this.SHA256(concurso.toString()));
+
+                listaConcurso.add(concurso);
+            }
+
+            // Salva os concursos
+            concursoRepository.salvarConcursos(listaConcurso);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    
+
     /*
-
-        List<Concurso> listaConcursos = new ArrayList<Concurso>()
-
-        def tagsoupParser = new org.ccil.cowan.tagsoup.Parser()
-
-        def parser = new XmlSlurper(tagsoupParser)
-
-        def html = parser.parse(link)
-
-        def tagsContents = html.'**'.findAll { it.div.@class == 'ca'}
-
-        tagsContents.each {
-
-            Concurso concurso = new Concurso()
-
-            concurso.titulo = it.div.a.text()
-            concurso.descricao = it.div.a['@title']
-            concurso.link = it.div.a['@href']
-
-            it.div.div.each { value ->
-                if (value['@class'] == 'cc') {
-                    concurso.uf = value.text().trim()
-
-                    if (concurso.uf.length() != 2) {
-                        concurso.uf = ''
-                    }
-                }
-                if (value['@class'] == 'cd') {
-                    concurso.vagasCargosSalarios = value
-                }
-                if (value['@class'] == 'ce') {
-                    concurso.periodoInscricao = value
-                }
-            }
-
-            concurso.hash = this.generateMD5(concurso.toString())
-
-            // Busca o concurso para saber se o mesmo já foi cadastrado
-            Concurso c = concursoRepository.findByHash(concurso.hash)
-            if (c == null) {
-                listaConcursos.add(concurso)
-            }
+     * Retorna o texto criptografado em SHA-256
+     */
+    private String SHA256(String texto) {
+        String sen = "";
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+            BigInteger hash = new BigInteger(1, md.digest(texto.getBytes()));
+            sen = hash.toString(16);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
 
-        this.salvarConcursos(listaConcursos)
+        return sen;
     }
-
-    /*
-        Cadastra os concursos encontrados na base
-    *
-    private void salvarConcursos(List<Concurso> concursos) {
-
-        concursoRepository.saveAll(concursos)
-        System.out.println("Concursos cadastrados: " + concursos.size())
-    }
-
-    private String generateMD5(String s) {
-        MessageDigest digest = MessageDigest.getInstance("MD5")
-        digest.update(s.bytes);
-        return new BigInteger(1, digest.digest()).toString(16).padLeft(32, '0')
-    }
-
-    */
 }
