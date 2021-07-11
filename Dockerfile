@@ -6,9 +6,11 @@ RUN mkdir /app
 
 COPY ./ /app
 
-RUN ant -f /app/oportunidade/build.xml deployWar
+RUN cp /app/naviox-users.properties /app/oportunidade/web/WEB-INF/classes
 
-RUN mv /workspace.dist/oportunidade.dist/oportunidade.war /usr/local/tomcat/webapps && rm -rf /workspace.dist
+RUN ant -f /app/oportunidade/build.xml createWar
+
+RUN mv /app/oportunidade.dist/oportunidade.war /usr/local/tomcat/webapps && rm -rf /app
 
 EXPOSE 8080
 

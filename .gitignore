@@ -8,6 +8,8 @@ build/
 /temp/
 /oportunidade/temp/
 /data/
+/oportunidade.dist/
+/oportunidade/${deploy.dir}/
 
 ### STS ###
 .apt_generated

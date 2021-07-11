@@ -203,7 +203,7 @@ For backward compatibility we still support the use of servlets.xml, filters.xml
 		<url-pattern>/dwr/*</url-pattern>
 	</servlet-mapping>	
 	
-<!-- Spring Framework -->
+	<!-- Spring Framework -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/applicationContext.xml</param-value>
