@@ -1,7 +1,6 @@
 package br.com.hslife.oportunidade.service;
 
 import java.math.BigInteger;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
@@ -11,8 +10,6 @@ import java.util.List;
 
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.request.SendMessage;
-import com.pengrad.telegrambot.response.BaseResponse;
-import com.pengrad.telegrambot.response.GetUpdatesResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 
 import org.jsoup.Jsoup;
@@ -102,10 +99,10 @@ public class OportunidadeService {
 
         listaOportunidades.forEach(oportunidade -> {
 
-            //envio da mensagem para o canal
+            // envio da mensagem para o canal
             SendResponse sendResponse = bot.execute(new SendMessage(channelID, oportunidade.toString()));
 
-            //verificação de mensagem enviada com sucesso
+            // verificação de mensagem enviada com sucesso
             if (sendResponse.isOk()) {
                 // Seta a oportunidade como enviada
                 oportunidadeRepository.atualizarOportunidadeEnviada(oportunidade);
