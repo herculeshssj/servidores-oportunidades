@@ -21,5 +21,10 @@
     	</action>
 	</controller>    
     -->
+
+    <controller name="Oportunidade">
+        <extends controller="Typical" />
+        <action name="arquivarOportunidades" mode="list" class="br.com.hslife.oportunidade.action.ArquivarOportunidadesAction" confirm="true"/>
+    </controller>
     
 </controllers>

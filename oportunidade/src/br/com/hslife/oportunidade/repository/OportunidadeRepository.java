@@ -58,4 +58,11 @@ public class OportunidadeRepository {
         XPersistence.getManager().merge(op);
         XPersistence.commit();
     }
+
+    public void arquivarOportunidade(String id) {
+        Oportunidade op = XPersistence.getManager().find(Oportunidade.class, id);
+        op.setArquivado(true);
+        XPersistence.getManager().merge(op);
+        XPersistence.commit();
+    }
 }
