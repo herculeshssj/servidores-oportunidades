@@ -41,4 +41,11 @@ public class ConcursoRepository {
 
         });
     }
+
+    public void arquivarConcurso(String id) {
+        Concurso c = XPersistence.getManager().find(Concurso.class, id);
+        c.setArquivado(true);
+        XPersistence.getManager().merge(c);
+        XPersistence.commit();
+    }
 }

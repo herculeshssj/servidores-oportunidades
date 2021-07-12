@@ -26,5 +26,10 @@
         <extends controller="Typical" />
         <action name="arquivarOportunidades" mode="list" class="br.com.hslife.oportunidade.action.ArquivarOportunidadesAction" confirm="true"/>
     </controller>
+
+    <controller name="Concurso">
+        <extends controller="Typical" />
+        <action name="arquivarConcursos" mode="list" class="br.com.hslife.oportunidade.action.ArquivarConcursosAction" confirm="true"/>
+    </controller>
     
 </controllers>
