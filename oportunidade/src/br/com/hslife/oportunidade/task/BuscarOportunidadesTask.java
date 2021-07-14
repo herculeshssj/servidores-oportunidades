@@ -61,6 +61,10 @@ public class BuscarOportunidadesTask {
             concursoService.buscarConcursos(link);
         }
 
+        // Arquivar oportunidades e concursos antigos
+        oportunidadeService.arquivarAntigos();
+        concursoService.arquivarAntigos();
+
         System.out.println("Finalizado a busca pelas oportunidades... :: Hora local - " + dateTimeFormatter.format(LocalDateTime.now()));
     }
 }

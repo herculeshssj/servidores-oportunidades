@@ -119,4 +119,17 @@ public class OportunidadeService {
         });
 
     }
+
+    /*
+        Arquiva as seleções cadastradas a mais de 60 dias
+    */
+    public void arquivarAntigos() {
+        LocalDate hoje = LocalDate.now();
+        
+        List<Oportunidade> listaOportunidade = oportunidadeRepository.buscarNaoArquivadosPorData(hoje.minusDays(60));
+
+        listaOportunidade.forEach(oportunidade -> {
+            oportunidadeRepository.arquivarOportunidade(oportunidade.getId());
+        });
+    }
 }

@@ -1,5 +1,7 @@
 package br.com.hslife.oportunidade.repository;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.NoResultException;
@@ -47,5 +49,12 @@ public class ConcursoRepository {
         c.setArquivado(true);
         XPersistence.getManager().merge(c);
         XPersistence.commit();
+    }
+
+    public List<Concurso> buscarNaoArquivadosPorData(LocalDate dataCorte) {
+        return XPersistence.getManager()
+            .createQuery("SELECT c FROM Concurso c WHERE c.dataCadastro <= :dataCorte AND c.arquivado = false", Concurso.class)
+            .setParameter("dataCorte", dataCorte)
+            .getResultList();
     }
 }

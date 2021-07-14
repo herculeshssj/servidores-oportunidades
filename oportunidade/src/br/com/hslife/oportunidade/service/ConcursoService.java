@@ -69,6 +69,19 @@ public class ConcursoService {
     }
 
     /*
+        Arquiva os concursos antigos que foram cadastrados a mais de 30 dias.
+    */
+    public void arquivarAntigos() {
+        LocalDate hoje = LocalDate.now();
+        
+        List<Concurso> listaConcursos = concursoRepository.buscarNaoArquivadosPorData(hoje.minusDays(30));
+
+        listaConcursos.forEach(concurso -> {
+            concursoRepository.arquivarConcurso(concurso.getId());
+        });
+    }
+
+    /*
      * Retorna o texto criptografado em SHA-256
      */
     private String SHA256(String texto) {

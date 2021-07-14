@@ -11,7 +11,6 @@ import org.openxava.util.*;
 public class _Run_oportunidade {
 
 	public static void main(String[] args) throws Exception {
-		//DBServer.start("oportunidadeDB"); // To use your own database comment this line and configure web/META-INF/context.xml
 		AppServer.run("oportunidade"); // Use AppServer.run("") to run in root context
 	}
 
