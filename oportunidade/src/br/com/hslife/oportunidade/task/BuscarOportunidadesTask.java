@@ -27,11 +27,16 @@ public class BuscarOportunidadesTask {
         System.out.println("Iniciando a busca pelas oportunidades... :: Hora local - " + dateTimeFormatter.format(LocalDateTime.now()));
 
         // Traz as variáveis de ambiente
-        Map<String, String> envvars = System.getenv();
+        //Map<String, String> envvars = System.getenv();
 
-        String telegramBotToken = envvars.get("app.telegram.token");
-        String channelID = envvars.get("app.telegram.channel");
+        // O CANAL NO TELEGRAM FOI ENCERRADO!
 
+        //String telegramBotToken = envvars.get("app.telegram.token");
+        //String channelID = envvars.get("app.telegram.channel");
+
+        // TODAS AS OPORTUNIDADES DIVULGADAS PELO GOVERNO FEDERAL AGORA ESTÃO NO APLICATIVO SOUGOV.BR
+
+        /*
         // Atualiza o cadastro de oportunidades
         List<String> linkOportunidades = new ArrayList<>();
         linkOportunidades.add("https://www.gov.br/servidor/pt-br/centrais-de-conteudo/oportunidades/divulgacao/cessao-1/cessao");
@@ -45,7 +50,8 @@ public class BuscarOportunidadesTask {
         }
 
         // Envia a notificação das novas oportunidades
-        oportunidadeService.notificarOportunidades(telegramBotToken, Long.parseLong((channelID == null ? "0" : channelID)));
+        //oportunidadeService.notificarOportunidades(telegramBotToken, Long.parseLong((channelID == null ? "0" : channelID)));
+        */
 
         // Atualiza o cadastro de concursos
         List<String> linkConcursos = new ArrayList<>();
@@ -62,7 +68,7 @@ public class BuscarOportunidadesTask {
         }
 
         // Arquivar oportunidades e concursos antigos
-        oportunidadeService.arquivarAntigos();
+        //oportunidadeService.arquivarAntigos();
         concursoService.arquivarAntigos();
 
         System.out.println("Finalizado a busca pelas oportunidades... :: Hora local - " + dateTimeFormatter.format(LocalDateTime.now()));

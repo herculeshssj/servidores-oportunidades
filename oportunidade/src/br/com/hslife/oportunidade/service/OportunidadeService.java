@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.request.SendMessage;
-import com.pengrad.telegrambot.response.SendResponse;
+//import com.pengrad.telegrambot.TelegramBot;
+//import com.pengrad.telegrambot.request.SendMessage;
+//import com.pengrad.telegrambot.response.SendResponse;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -90,7 +90,7 @@ public class OportunidadeService {
 
     /*
      * Notifica aos usuários das novas oportunidades disponíveis no site
-     */
+     *
     public void notificarOportunidades(String telegramBotToken, Long channelID) {
         List<Oportunidade> listaOportunidades = oportunidadeRepository.buscarOportunidadesNaoEnviadas();
 
@@ -119,6 +119,7 @@ public class OportunidadeService {
         });
 
     }
+    */
 
     /*
         Arquiva as seleções cadastradas a mais de 60 dias
