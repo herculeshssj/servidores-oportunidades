@@ -41,7 +41,7 @@ docker build -t oportunidade:latest .
 Após a construção da imagem, realize a criação do container:
 
 ```
-docker run --restart=unless-stopped --name oportunidade --link oportunidade-db -p 8080:8080 -e app.telegram.token="<TELEGRAM_BOT_TOKEN>" -e app.telegram.channel="<CHANNEL_ID>" -d oportunidade:latest
+docker run --restart=unless-stopped --name oportunidade --link oportunidade-db -p 8080:8080 -d oportunidade:latest
 ```
 
 O sistema está acessível em http://<ip>:8080/oportunidade/
