@@ -8,6 +8,14 @@
 	<classpathentry kind="src" path="xava"/>
 	<classpathentry kind="src" path="i18n"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/postgresql-42.2.18.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/lombok.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-aop-5.2.9.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-aspects-5.2.9.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-beans-5.2.9.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-context-5.2.9.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-core-5.2.9.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-expression-5.2.9.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-web-5.2.9.RELEASE.jar"/>
 	<classpathentry kind="output" path="web/WEB-INF/classes"/>
 </classpath>
 
